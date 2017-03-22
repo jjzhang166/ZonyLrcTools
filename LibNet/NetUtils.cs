@@ -94,19 +94,17 @@ namespace LibNet
         /// <returns>编码后的数据</returns>
         public string URL_Encoding(string data, Encoding encoding)
         {
-            if (!string.IsNullOrEmpty(data))
+            if (string.IsNullOrEmpty(data)) return string.Empty;
+
+            StringBuilder _sb = new StringBuilder();
+            byte[] _dataBytes = encoding.GetBytes(data);
+
+            for (int i = 0; i < _dataBytes.Length; i++)
             {
-                StringBuilder _sb = new StringBuilder();
-                byte[] _dataBytes = encoding.GetBytes(data);
-
-                for (int i = 0; i < _dataBytes.Length; i++)
-                {
-                    _sb.Append(@"%" + _dataBytes[i].ToString("x2"));
-                }
-
-                return _sb.ToString();
+                _sb.Append(@"%" + _dataBytes[i].ToString("x2"));
             }
-            else return string.Empty;
+
+            return _sb.ToString();
         }
     }
 }
