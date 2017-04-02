@@ -15,7 +15,6 @@ namespace LibLyricQQMusic
         private NetUtils m_netUtils = new NetUtils();
 
         private const string QQMUSIC_SERVIER_URL = "http://qqmusic.qq.com/fcgi-bin/qm_getLyricId.fcg?";
-        //private const string
 
         public PluginsAttribute PlugInfo { get; set; }
 
