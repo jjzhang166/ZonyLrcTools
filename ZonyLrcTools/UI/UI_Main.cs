@@ -105,7 +105,7 @@ namespace ZonyLrcTools.UI
             }
 
             loadMenuIcon();
-            funcBindUI();
+            bindUIMthod();
             CheckForIllegalCrossThreadCalls = false;
         }
 
@@ -430,14 +430,14 @@ namespace ZonyLrcTools.UI
         /// <summary>
         /// UI点击事件绑定
         /// </summary>
-        private void funcBindUI()
+        private void bindUIMthod()
         {
-            button_AboutSoftware.Click += (object sender, EventArgs e) => { new UI_About().ShowDialog(); };
-            button_DonateAuthor.Click += (object sender, EventArgs e) => { new UI_Donate().ShowDialog(); };
-            button_PluginsMrg.Click += (object sender, EventArgs e) => { new UI_PluginsManager().ShowDialog(); };
-            button_FeedBack.Click += (object sender, EventArgs e) => { new UI_FeedBack().ShowDialog(); };
-            button_Setting.Click += (object sender, EventArgs e) => { new UI_Settings().ShowDialog(); };
-            this.FormClosed += (object sender, FormClosedEventArgs e) => { Environment.Exit(0); };
+            button_AboutSoftware.Click += delegate { new UI_About().ShowDialog(); };
+            button_DonateAuthor.Click += delegate { new UI_Donate().ShowDialog(); };
+            button_PluginsMrg.Click += delegate { new UI_PluginsManager().ShowDialog(); };
+            button_FeedBack.Click += delegate { new UI_FeedBack().ShowDialog(); };
+            button_Setting.Click += delegate { new UI_Settings().ShowDialog(); };
+            this.FormClosed += delegate { Environment.Exit(0); };
         }
 
         /// <summary>
@@ -522,6 +522,14 @@ namespace ZonyLrcTools.UI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void toolStripButton_RenameFile_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        /// <summary>
+        /// 批量更改文件名
+        /// </summary>
+        private void batchChangeSongName()
         {
             if (listView_MusicInfos.Items.Count > 0)
             {

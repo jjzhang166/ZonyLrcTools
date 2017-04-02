@@ -2,7 +2,8 @@
 
 namespace LibPlug
 {
-    public class PluginsAttribute : Attribute
+    [Serializable]
+    public sealed class PluginsAttribute : Attribute
     {
         public PluginsAttribute() { }
         /// <summary>
@@ -13,7 +14,7 @@ namespace LibPlug
         /// <param name="Descript">插件描述</param>
         /// <param name="Version">插件版本</param>
         /// <param name="TypeEnum">插件类型</param>
-        public PluginsAttribute(string PlugName,string Author,string Descript,int Version,PluginTypesEnum TypeEnum)
+        public PluginsAttribute(string PlugName, string Author, string Descript, int Version, PluginTypesEnum TypeEnum)
         {
             _PlugName = PlugName;
             _Author = Author;
