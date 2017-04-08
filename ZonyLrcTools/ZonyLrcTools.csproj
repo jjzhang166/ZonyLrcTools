@@ -107,6 +107,12 @@
     <Compile Include="UI\UI_Main.Designer.cs">
       <DependentUpon>UI_Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UI_Main_Bind.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\UI_Main_PrivateFunc.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\UI_PluginSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,7 +133,6 @@
     </Compile>
     <Compile Include="Untils\EncodingConverter.cs" />
     <Compile Include="Untils\FileUtils.cs" />
-    <Compile Include="Untils\FuncUtils.cs" />
     <Compile Include="Untils\GlobalMember.cs" />
     <Compile Include="Untils\LogManager.cs" />
     <Compile Include="Untils\SettingManager.cs" />

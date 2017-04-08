@@ -85,11 +85,9 @@ namespace LibLyricNetEase
         /// <returns></returns>
         private string splitLyricBuildResultValue(string lyric, string tlyric)
         {
-            if (!string.IsNullOrEmpty(tlyric))
-            {
-                return lyric + /*modfiyTranslateLyricTimeAxis(tlyric);*/tlyric;
-            }
-            else return lyric;
+            if (string.IsNullOrEmpty(tlyric)) return lyric;
+
+            return lyric + /*modfiyTranslateLyricTimeAxis(tlyric);*/tlyric;
         }
 
         /// <summary>

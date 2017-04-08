@@ -19,7 +19,7 @@ namespace ZonyLrcTools.Untils
         /// <param name="filePath">文件路径</param>
         /// <param name="data">要写入的byte数据</param>
         /// <returns></returns>
-        public static bool WriteFile(string filePath,byte[] data)
+        public static bool WriteFile(string filePath, byte[] data)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace ZonyLrcTools.Untils
                     return true;
                 }
             }
-            catch(Exception E)
+            catch (Exception E)
             {
                 LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在方法WriteFile发生异常!", E);
                 return false;
@@ -43,7 +43,7 @@ namespace ZonyLrcTools.Untils
         /// <param name="data">要写入的字符串数据</param>
         /// <param name="encoding">编码方式</param>
         /// <returns></returns>
-        public static bool WriteFile(string filePath,string data,Encoding encoding)
+        public static bool WriteFile(string filePath, string data, Encoding encoding)
         {
             byte[] _dataBytes = encoding.GetBytes(data);
             try
@@ -53,7 +53,7 @@ namespace ZonyLrcTools.Untils
                     _fs.Write(_dataBytes, 0, _dataBytes.Length);
                 }
             }
-            catch(Exception E)
+            catch (Exception E)
             {
                 LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在方法WriteFile发生异常!", E);
                 return false;
@@ -67,7 +67,7 @@ namespace ZonyLrcTools.Untils
         /// <param name="dirPath">要搜索的目录</param>
         /// <param name="exts">音乐文件后缀名集合</param>
         /// <returns></returns>
-        public static string[] SearchFiles(string dirPath,string[] exts)
+        public static string[] SearchFiles(string dirPath, string[] exts)
         {
             List<string> _result = new List<string>();
             if (!Directory.Exists(dirPath)) return _result.ToArray();
@@ -80,7 +80,7 @@ namespace ZonyLrcTools.Untils
 
                     foreach (var fileName in _files)
                     {
-                        _result.Add(fileName); 
+                        _result.Add(fileName);
                     }
                 }
                 catch (Exception E)
@@ -103,13 +103,38 @@ namespace ZonyLrcTools.Untils
             Process.Start(_start);
         }
 
-        private static string[] getFiles(string dir,string ext)
+        private static string[] getFiles(string dir, string ext)
         {
             List<string> _result = new List<string>();
-            if(!string.IsNullOrEmpty(dir))
+            if (!string.IsNullOrEmpty(dir))
             {
-                
-            }return _result.ToArray();
+
+            }
+            return _result.ToArray();
+        }
+
+        /// <summary>
+        /// 根据音乐文件路径构建lrc歌词路径
+        /// </summary>
+        /// <param name="musicPath">音乐文件路径</param>
+        /// <returns></returns>
+        public static string BuildLrcPath(string musicPath)
+        {
+            string _fileName = Path.GetFileNameWithoutExtension(musicPath);
+            string _filePath = Path.GetDirectoryName(musicPath);
+            return $@"{_filePath}\{_fileName}.lrc";
+        }
+
+        /// <summary>
+        /// 根据音乐文件路径构建lrc歌词路径
+        /// </summary>
+        /// <param name="musicPath">音乐文件路径</param>
+        /// <param name="destDirctory">目标目录</param>
+        /// <returns></returns>
+        public static string BuildLrcPath(string musicPath, string destDirctory)
+        {
+            string _fileName = Path.GetFileNameWithoutExtension(musicPath);
+            return $@"{destDirctory}\{_fileName}.lrc";
         }
     }
 }

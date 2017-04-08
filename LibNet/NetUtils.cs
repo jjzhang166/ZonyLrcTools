@@ -33,14 +33,12 @@ namespace LibNet
 
                 if (referer != null) _req.Headers.Referrer = new Uri(referer);
 
-                using (HttpResponseMessage _res = m_client.SendAsync(_req).Result)
+                HttpResponseMessage _res = m_client.SendAsync(_req).Result;
+                if (_res.StatusCode == HttpStatusCode.OK)
                 {
-                    if (_res.StatusCode == HttpStatusCode.OK)
-                    {
-                        return _res.Content.ReadAsStringAsync().Result;
-                    }
-                    else return null;
+                    return _res.Content.ReadAsStringAsync().Result;
                 }
+                else return null;
             }
             catch (Exception E)
             {
@@ -71,14 +69,12 @@ namespace LibNet
                     _req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
                 }
 
-                using (HttpResponseMessage _res = m_client.SendAsync(_req).Result)
+                HttpResponseMessage _res = m_client.SendAsync(_req).Result;
+                if (_res.StatusCode == HttpStatusCode.OK)
                 {
-                    if (_res.StatusCode == HttpStatusCode.OK)
-                    {
-                        return _res.Content.ReadAsStringAsync().Result;
-                    }
-                    else return null;
+                    return _res.Content.ReadAsStringAsync().Result;
                 }
+                else return null;
             }
             catch (Exception E)
             {

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibNet;
+using ZonyLrcTools.Untils;
+using ZonyLrcTools.EnumDefine;
 
 namespace ZonyLrcTools.UI
 {
@@ -36,17 +38,25 @@ namespace ZonyLrcTools.UI
 
         private Task<bool> getDonateInfoTask()
         {
-            return Task.Run(() => 
+            return Task.Run(() =>
             {
-                string _result = new NetUtils().HttpGet("http://www.myzony.com/donatelist.txt", Encoding.UTF8);
-                if (string.IsNullOrEmpty(_result)) return false;
-                string[] _items = _result.Split('|');
-                foreach(var item in _items)
+                try
                 {
-                    string[] _listItem = item.Split(',');
-                    listView1.Items.Add(new ListViewItem(_listItem));
+                    string _result = new NetUtils().HttpGet("http://www.myzony.com/donatelist.txt", Encoding.UTF8);
+                    if (string.IsNullOrEmpty(_result)) return false;
+                    string[] _items = _result.Split('|');
+                    foreach (var item in _items)
+                    {
+                        string[] _listItem = item.Split(',');
+                        listView1.Items.Add(new ListViewItem(_listItem));
+                    }
+                    return true;
                 }
-                return true;
+                catch (Exception E)
+                {
+                    LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在函数getDonateInfoTask发生异常。", E);
+                    return false;
+                }
             });
         }
     }
