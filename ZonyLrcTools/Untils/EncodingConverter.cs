@@ -38,7 +38,7 @@ namespace ZonyLrcTools.Untils
     {
         public override byte[] ConvertBytes(byte[] _sourceBytes, string encodingName)
         {
-            return Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding(encodingName), _sourceBytes);
+            return Encoding.Convert(Encoding.UTF8, Encoding.Default, _sourceBytes);
         }
     }
 }

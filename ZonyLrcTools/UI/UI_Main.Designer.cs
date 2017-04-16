@@ -412,6 +412,7 @@ namespace ZonyLrcTools.UI
             this.listView_MusicInfos.TabIndex = 1;
             this.listView_MusicInfos.UseCompatibleStateImageBehavior = false;
             this.listView_MusicInfos.View = System.Windows.Forms.View.Details;
+            this.listView_MusicInfos.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_MusicInfos_ColumnClick);
             this.listView_MusicInfos.SelectedIndexChanged += new System.EventHandler(this.listView_MusicInfos_SelectedIndexChanged);
             this.listView_MusicInfos.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView_MusicInfos_DragEnter);
             this.listView_MusicInfos.DragOver += new System.Windows.Forms.DragEventHandler(this.listView_MusicInfos_DragOver);

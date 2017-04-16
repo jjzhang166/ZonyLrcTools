@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -11,7 +10,6 @@ using ZonyLrcTools.EnumDefine;
 using ZonyLrcTools.Untils;
 using LibPlug.Model;
 using LibPlug;
-using LibNet;
 using LibPlug.Interface;
 
 namespace ZonyLrcTools.UI
@@ -327,6 +325,14 @@ namespace ZonyLrcTools.UI
             if (_path.Length > 0)
             {
                 var _result = searchFolderFiles(_path);
+            }
+        }
+
+        private void listView_MusicInfos_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            ListViewItem _lv = sender as ListViewItem;
+            if(e.Column == 6)
+            {
             }
         }
     }
