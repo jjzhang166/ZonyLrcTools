@@ -20,6 +20,9 @@ namespace ZonyLrcTools.Untils
         }
     }
 
+    /// <summary>
+    /// UTF-8带BOM转换
+    /// </summary>
     public sealed class EncodingUTF8_Bom : EncodingConverter
     {
         public override byte[] ConvertBytes(byte[] _sourceBytes, string encodingName)
@@ -34,6 +37,9 @@ namespace ZonyLrcTools.Untils
         }
     }
 
+    /// <summary>
+    /// ANSI转换器
+    /// </summary>
     public sealed class EncodingANSI : EncodingConverter
     {
         public override byte[] ConvertBytes(byte[] _sourceBytes, string encodingName)
