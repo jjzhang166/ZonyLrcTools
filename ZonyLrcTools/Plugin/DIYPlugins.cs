@@ -24,7 +24,7 @@ namespace ZonyLrcTools.Plugin
             }
         }
 
-        protected override void CallBack()
+        protected override void LoadPluginsInfo()
         {
             for (int i = 0; i < PluginInfos.Count; i++)
             {

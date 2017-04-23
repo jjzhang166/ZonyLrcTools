@@ -1,8 +1,7 @@
 ﻿using LibPlug.Model;
-using ZonyLrcTools.Untils;
-
 using System;
 using System.Windows.Forms;
+using ZonyLrcTools.Untils;
 
 namespace ZonyLrcTools.UI
 {

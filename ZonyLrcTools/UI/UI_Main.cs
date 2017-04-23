@@ -11,6 +11,7 @@ using ZonyLrcTools.Untils;
 using LibPlug.Model;
 using LibPlug;
 using LibPlug.Interface;
+using System.Collections;
 
 namespace ZonyLrcTools.UI
 {
@@ -231,7 +232,8 @@ namespace ZonyLrcTools.UI
                         return;
                     }
                     Dictionary<int, MusicInfoModel> _tmpDic = new Dictionary<int, MusicInfoModel>();
-                    for (int i = 0; i < _files.Length; i++) _tmpDic.Add(GlobalMember.AllMusics.Count == 0 ? i : GlobalMember.AllMusics.Count + i, new MusicInfoModel { Path = _files[i] });
+                    int _lenght = _files.Length;
+                    for (int i = 0; i < _lenght; i++) _tmpDic.Add(GlobalMember.AllMusics.Count == 0 ? i : GlobalMember.AllMusics.Count + i, new MusicInfoModel { Path = _files[i] });
                     progress_DownLoad.Value = 0; progress_DownLoad.Maximum = _tmpDic.Count;
                     getMusicInfoAndFillList(_tmpDic);
                     GlobalMember.AllMusics.Concat(_tmpDic);
@@ -266,16 +268,6 @@ namespace ZonyLrcTools.UI
                 }
             }
             else setBottomStatusText(StatusHeadEnum.ERROR, "并没有图片让你保存哦!");
-        }
-
-        /// <summary>
-        /// 批量改名
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripButton_RenameFile_Click(object sender, EventArgs e)
-        {
-
         }
 
         /// <summary>
@@ -322,17 +314,43 @@ namespace ZonyLrcTools.UI
         private void listView_MusicInfos_DragOver(object sender, DragEventArgs e)
         {
             var _path = ((string[])e.Data.GetData(DataFormats.FileDrop));
+            disenabledButton();
             if (_path.Length > 0)
             {
                 var _result = searchFolderFiles(_path);
+                Dictionary<int, MusicInfoModel> _tmpDic = new Dictionary<int, MusicInfoModel>();
+                for (int i = 0, _length = _result.Length; i < _length; i++)
+                {
+                    _tmpDic.Add(GlobalMember.AllMusics.Count == 0 ? i : GlobalMember.AllMusics.Count + i, new MusicInfoModel() { Path = _result[i] });
+                }
+                progress_DownLoad.Value = 0; progress_DownLoad.Maximum = _tmpDic.Count;
+                getMusicInfoAndFillList(_tmpDic);
+                GlobalMember.AllMusics.Concat(_tmpDic);
             }
+            enabledButton();
         }
+
+
 
         private void listView_MusicInfos_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            ListViewItem _lv = sender as ListViewItem;
-            if(e.Column == 6)
+            listView_MusicInfos.ListViewItemSorter = new ListViewItemComparer(e.Column);
+            listView_MusicInfos.Sort();
+        }
+
+        private class ListViewItemComparer : IComparer
+        {
+            private int m_columnIndex;
+            public ListViewItemComparer(int columnIndex)
             {
+                m_columnIndex = columnIndex;
+            }
+
+            public int Compare(object x, object y)
+            {
+                int _returnValue = -1;
+                _returnValue = string.Compare((x as ListViewItem).SubItems[6].Text, (y as ListViewItem).SubItems[6].Text);
+                return _returnValue;
             }
         }
     }

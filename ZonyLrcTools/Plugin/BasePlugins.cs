@@ -60,7 +60,7 @@ namespace ZonyLrcTools.Plugin
                             _info = t.GetCustomAttribute(typeof(PluginsAttribute), false) as PluginsAttribute;
                             PluginInfos.Add(_info);
 
-                            CallBack();
+                            LoadPluginsInfo();
                         }
                     }
                 }
@@ -73,6 +73,6 @@ namespace ZonyLrcTools.Plugin
             return PluginInfos.Count;
         }
 
-        protected virtual void CallBack() { }
+        protected virtual void LoadPluginsInfo() { }
     }
 }
