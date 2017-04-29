@@ -103,38 +103,24 @@ namespace ZonyLrcTools.Untils
             Process.Start(_start);
         }
 
-        private static string[] getFiles(string dir, string ext)
+        /// <summary>
+        /// 根据音乐文件路径构建lrc歌词路径
+        /// </summary>
+        /// <param name="musicPath">音乐文件路径</param>
+        /// <returns></returns>
+        public static string BuildLrcPath(string musicPath,string destDirectory = null)
         {
-            List<string> _result = new List<string>();
-            if (!string.IsNullOrEmpty(dir))
+            if(string.IsNullOrEmpty(destDirectory))
             {
-
+                string _fileName = Path.GetFileNameWithoutExtension(musicPath);
+                string _filePath = Path.GetDirectoryName(musicPath);
+                return $@"{_filePath}\{_fileName}.lrc";
             }
-            return _result.ToArray();
-        }
-
-        /// <summary>
-        /// 根据音乐文件路径构建lrc歌词路径
-        /// </summary>
-        /// <param name="musicPath">音乐文件路径</param>
-        /// <returns></returns>
-        public static string BuildLrcPath(string musicPath)
-        {
-            string _fileName = Path.GetFileNameWithoutExtension(musicPath);
-            string _filePath = Path.GetDirectoryName(musicPath);
-            return $@"{_filePath}\{_fileName}.lrc";
-        }
-
-        /// <summary>
-        /// 根据音乐文件路径构建lrc歌词路径
-        /// </summary>
-        /// <param name="musicPath">音乐文件路径</param>
-        /// <param name="destDirctory">目标目录</param>
-        /// <returns></returns>
-        public static string BuildLrcPath(string musicPath, string destDirctory)
-        {
-            string _fileName = Path.GetFileNameWithoutExtension(musicPath);
-            return $@"{destDirctory}\{_fileName}.lrc";
+            else
+            {
+                string _fileName = Path.GetFileNameWithoutExtension(musicPath);
+                return $@"{destDirectory}\{_fileName}.lrc";
+            }
         }
     }
 }

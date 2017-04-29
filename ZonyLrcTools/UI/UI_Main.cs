@@ -330,8 +330,6 @@ namespace ZonyLrcTools.UI
             enabledButton();
         }
 
-
-
         private void listView_MusicInfos_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             listView_MusicInfos.ListViewItemSorter = new ListViewItemComparer(e.Column);

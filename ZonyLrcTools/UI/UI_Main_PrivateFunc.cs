@@ -1,13 +1,12 @@
-﻿using LibPlug.Model;
-using ZonyLrcTools.Untils;
-
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Threading.Tasks;
+﻿using LibPlug;
 using LibPlug.Interface;
-using ZonyLrcTools.EnumDefine;
-using LibPlug;
+using LibPlug.Model;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using ZonyLrcTools.EnumDefine;
+using ZonyLrcTools.Untils;
 
 namespace ZonyLrcTools.UI
 {
@@ -33,20 +32,6 @@ namespace ZonyLrcTools.UI
                     break;
             }
             return _convert.ConvertBytes(sourceBytes, SettingManager.SetValue.EncodingName);
-        }
-
-        /// <summary>
-        /// 获得歌词路径
-        /// </summary>
-        /// <param name="musicPath">音乐路径</param>
-        /// <returns></returns>
-        private string getLrcPath(string musicPath)
-        {
-            if (string.IsNullOrEmpty(SettingManager.SetValue.UserDirectory))
-            {
-                return FileUtils.BuildLrcPath(musicPath);
-            }
-            else return FileUtils.BuildLrcPath(musicPath, SettingManager.SetValue.UserDirectory);
         }
 
         /// <summary>
@@ -120,7 +105,7 @@ namespace ZonyLrcTools.UI
                         return;
                     }
 
-                    string _lrcPath = getLrcPath(item.Value.Path);
+                    string _lrcPath = FileUtils.BuildLrcPath(item.Value.Path, SettingManager.SetValue.UserDirectory);
                     _lrcData = encodingConvert(_lrcData);
                     FileUtils.WriteFile(_lrcPath, _lrcData);
 
