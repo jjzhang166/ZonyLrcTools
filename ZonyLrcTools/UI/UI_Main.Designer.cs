@@ -51,6 +51,8 @@ namespace ZonyLrcTools.UI
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_OpenFileFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_CleanListItems = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox_MusicInfo = new System.Windows.Forms.GroupBox();
             this.textBox_Lryic = new System.Windows.Forms.TextBox();
             this.label_Lryic = new System.Windows.Forms.Label();
@@ -193,9 +195,11 @@ namespace ZonyLrcTools.UI
             this.ToolStripMenuItem_DownLoadSelectedAlbumImg,
             this.toolStripMenuItem1,
             this.ToolStripMenuItem_OpenFileFolder,
-            this.ToolStripMenuItem_AddDirectory});
+            this.ToolStripMenuItem_AddDirectory,
+            this.toolStripMenuItem2,
+            this.ToolStripMenuItem_CleanListItems});
             this.contextMenuStrip_FileListView.Name = "contextMenuStrip_FileListView";
-            this.contextMenuStrip_FileListView.Size = new System.Drawing.Size(197, 120);
+            this.contextMenuStrip_FileListView.Size = new System.Drawing.Size(197, 170);
             // 
             // ToolStripMenuItem_EditLyric
             // 
@@ -236,6 +240,17 @@ namespace ZonyLrcTools.UI
             this.ToolStripMenuItem_AddDirectory.Size = new System.Drawing.Size(196, 22);
             this.ToolStripMenuItem_AddDirectory.Text = "添加歌曲文件夹";
             this.ToolStripMenuItem_AddDirectory.Click += new System.EventHandler(this.ToolStripMenuItem_AddDirectory_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
+            // 
+            // ToolStripMenuItem_CleanListItems
+            // 
+            this.ToolStripMenuItem_CleanListItems.Name = "ToolStripMenuItem_CleanListItems";
+            this.ToolStripMenuItem_CleanListItems.Size = new System.Drawing.Size(196, 22);
+            this.ToolStripMenuItem_CleanListItems.Text = "清空列表";
             // 
             // groupBox_MusicInfo
             // 
@@ -528,5 +543,7 @@ namespace ZonyLrcTools.UI
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveAlbumImage;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_CleanListItems;
     }
 }

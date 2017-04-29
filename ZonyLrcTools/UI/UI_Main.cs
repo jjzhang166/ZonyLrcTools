@@ -82,13 +82,13 @@ namespace ZonyLrcTools.UI
 
         private void UI_Main_Load(object sender, EventArgs e)
         {
-            setBottomStatusText(StatusHeadEnum.WAIT, "等待用户操作...");
             CheckForIllegalCrossThreadCalls = false;
-            var _res = resourceInit();
+            setBottomStatusText(StatusHeadEnum.WAIT, "等待用户操作...");
+            var _shareResource = resourceInit();
 
             if (GlobalMember.MusicTagPluginsManager.LoadPlugins() == 0) setBottomStatusText(StatusHeadEnum.ERROR, "加载MusicTag插件管理器失败...");
             if (GlobalMember.LrcPluginsManager.LoadPlugins() == 0) setBottomStatusText(StatusHeadEnum.ERROR, "加载歌词下载插件失败...");
-            if (GlobalMember.DIYPluginsManager.LoadPlugins(_res) == 0) setBottomStatusText(StatusHeadEnum.ERROR, "自定义高级插件加载失败...");
+            if (GlobalMember.DIYPluginsManager.LoadPlugins(_shareResource) == 0) setBottomStatusText(StatusHeadEnum.ERROR, "自定义高级插件加载失败...");
 
             SettingManager.Load();
             GlobalMember.DIYPluginsManager.InitPlugins(); //高级插件延迟加载
@@ -339,6 +339,10 @@ namespace ZonyLrcTools.UI
         private class ListViewItemComparer : IComparer
         {
             private int m_columnIndex;
+            /// <summary>
+            /// 排序列索引依据
+            /// </summary>
+            /// <param name="columnIndex"></param>
             public ListViewItemComparer(int columnIndex)
             {
                 m_columnIndex = columnIndex;

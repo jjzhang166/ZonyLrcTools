@@ -99,7 +99,7 @@ namespace ZonyLrcTools.Untils
         public static void OpenFilePos(string filePath)
         {
             ProcessStartInfo _start = new ProcessStartInfo("Explorer.exe");
-            _start.Arguments = "/e,/select," + filePath;
+            _start.Arguments = $"/select,{filePath}";
             Process.Start(_start);
         }
 
