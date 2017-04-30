@@ -42,13 +42,17 @@
             this.checkBox_IsCheckUpdate = new System.Windows.Forms.CheckBox();
             this.textBox_DownLoadThreadNum = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button_SaveSetting = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.checkBox_IsDownTranslate = new System.Windows.Forms.CheckBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button_SaveSetting = new System.Windows.Forms.Button();
+            this.button_LogManager = new System.Windows.Forms.Button();
+            this.button_ClearLogFiles = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -56,6 +60,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -140,13 +145,6 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // button_SaveSetting
-            // 
-            resources.ApplyResources(this.button_SaveSetting, "button_SaveSetting");
-            this.button_SaveSetting.Name = "button_SaveSetting";
-            this.button_SaveSetting.UseVisualStyleBackColor = true;
-            this.button_SaveSetting.Click += new System.EventHandler(this.button_SaveSetting_Click);
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.checkBox_IsDownTranslate);
@@ -159,6 +157,35 @@
             resources.ApplyResources(this.checkBox_IsDownTranslate, "checkBox_IsDownTranslate");
             this.checkBox_IsDownTranslate.Name = "checkBox_IsDownTranslate";
             this.checkBox_IsDownTranslate.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.button_ClearLogFiles);
+            this.tabPage4.Controls.Add(this.button_LogManager);
+            resources.ApplyResources(this.tabPage4, "tabPage4");
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button_SaveSetting
+            // 
+            resources.ApplyResources(this.button_SaveSetting, "button_SaveSetting");
+            this.button_SaveSetting.Name = "button_SaveSetting";
+            this.button_SaveSetting.UseVisualStyleBackColor = true;
+            this.button_SaveSetting.Click += new System.EventHandler(this.button_SaveSetting_Click);
+            // 
+            // button_LogManager
+            // 
+            resources.ApplyResources(this.button_LogManager, "button_LogManager");
+            this.button_LogManager.Name = "button_LogManager";
+            this.button_LogManager.UseVisualStyleBackColor = true;
+            this.button_LogManager.Click += new System.EventHandler(this.button_LogManager_Click);
+            // 
+            // button_ClearLogFiles
+            // 
+            resources.ApplyResources(this.button_ClearLogFiles, "button_ClearLogFiles");
+            this.button_ClearLogFiles.Name = "button_ClearLogFiles";
+            this.button_ClearLogFiles.UseVisualStyleBackColor = true;
+            this.button_ClearLogFiles.Click += new System.EventHandler(this.button_LogManager_Click);
             // 
             // UI_Settings
             // 
@@ -178,6 +205,7 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -200,5 +228,8 @@
         private System.Windows.Forms.CheckBox checkBox_IsIgnoreExitsFile;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox checkBox_IsDownTranslate;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button button_LogManager;
+        private System.Windows.Forms.Button button_ClearLogFiles;
     }
 }

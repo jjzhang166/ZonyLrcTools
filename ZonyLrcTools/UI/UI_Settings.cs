@@ -31,7 +31,7 @@ namespace ZonyLrcTools.UI
         /// </summary>
         private async void loadEncodings()
         {
-            await Task.Run(() => 
+            await Task.Run(() =>
             {
                 var _encodings = Encoding.GetEncodings();
                 foreach (var item in _encodings)
@@ -47,7 +47,7 @@ namespace ZonyLrcTools.UI
         /// </summary>
         private async void laodSetting()
         {
-            await Task.Run(() => 
+            await Task.Run(() =>
             {
                 SettingManager.Load();
                 comboBox_Encoding.Text = SettingManager.SetValue.EncodingName;
@@ -82,23 +82,28 @@ namespace ZonyLrcTools.UI
             SettingManager.SetValue.IsCheckUpdate = checkBox_IsCheckUpdate.Checked;
             SettingManager.SetValue.DownloadThreadNum = int.Parse(textBox_DownLoadThreadNum.Text);
             if (comboBox_LrcOutput.SelectedIndex == 2) SettingManager.SetValue.UserDirectory = "ID3v2";
-            else if(comboBox_LrcOutput.SelectedIndex == 0) SettingManager.SetValue.UserDirectory = string.Empty;
+            else if (comboBox_LrcOutput.SelectedIndex == 0) SettingManager.SetValue.UserDirectory = string.Empty;
             SettingManager.SetValue.IsDownTranslate = checkBox_IsDownTranslate.Checked;
             SettingManager.Save();
         }
 
         private void comboBox_LrcOutput_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if(comboBox_LrcOutput.SelectedIndex == 1)
+            if (comboBox_LrcOutput.SelectedIndex == 1)
             {
                 FolderBrowserDialog _folderDlg = new FolderBrowserDialog();
                 _folderDlg.Description = "请选择歌词的输出目录：";
                 _folderDlg.ShowDialog();
-                if(!string.IsNullOrEmpty(_folderDlg.SelectedPath))
+                if (!string.IsNullOrEmpty(_folderDlg.SelectedPath))
                 {
                     SettingManager.SetValue.UserDirectory = _folderDlg.SelectedPath;
                 }
             }
+        }
+
+        private void button_LogManager_Click(object sender, EventArgs e)
+        {
+            new UI_LogManager().Show();
         }
     }
 }

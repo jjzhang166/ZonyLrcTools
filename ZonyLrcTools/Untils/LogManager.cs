@@ -45,12 +45,11 @@ namespace ZonyLrcTools.Untils
         /// </summary>
         private static string buildWriteString(string status, string text, Exception e)
         {
-            string _writeString = "状态:" + status + "\r\n" +
-                                  "信息:" + text + "\r\n" +
-                                  "错误信息：" + (e == null ? "无" : e.Message != null ? e.Message : e.InnerException.Message) + "\r\n" +
-                                  "错误堆栈：" + (e == null ? "无" : e.StackTrace != null ? e.StackTrace : e.InnerException.StackTrace) + "\r\n" +
-                                  "=================================================================================================\r\n\r\n";
-            return _writeString;
+            return $"状态:{status}\r\n" +
+                       $"信息:{text}\r\n" +
+                       $"错误信息:{e?.Message ?? e?.InnerException?.Message ?? "无"}\r\n" +
+                       $"错误堆栈:{e?.StackTrace ?? e?.InnerException?.StackTrace ?? "无"}\r\n" +
+                       $"{new string('=',97)}\r\n";
         }
     }
 }

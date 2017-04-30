@@ -14,6 +14,23 @@ namespace ZonyLrcTools.Untils
     public static class FileUtils
     {
         /// <summary>
+        /// 读取文本行
+        /// </summary>
+        /// <param name="provider">Reader提供器</param>
+        /// <returns></returns>
+        public static IEnumerable<string> ReadLines(Func<TextReader> provider)
+        {
+            using (TextReader _reader = provider())
+            {
+                string _line;
+                while((_line = _reader.ReadLine()) != null)
+                {
+                    yield return _line;
+                }
+            }
+        }
+
+        /// <summary>
         /// 将数据写入到文件
         /// </summary>
         /// <param name="filePath">文件路径</param>

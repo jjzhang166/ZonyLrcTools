@@ -95,6 +95,12 @@
     <Compile Include="UI\UI_FunctionTest.Designer.cs">
       <DependentUpon>UI_FunctionTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UI_LogManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\UI_LogManager.Designer.cs">
+      <DependentUpon>UI_LogManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UI_LyricEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UI_FunctionTest.resx">
       <DependentUpon>UI_FunctionTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UI_LogManager.resx">
+      <DependentUpon>UI_LogManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UI_LyricEditor.resx">
       <DependentUpon>UI_LyricEditor.cs</DependentUpon>
