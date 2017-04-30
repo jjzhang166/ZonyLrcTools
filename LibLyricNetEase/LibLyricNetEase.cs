@@ -1,8 +1,8 @@
-﻿using System.Text;
-using LibPlug.Interface;
+﻿using LibNet;
 using LibPlug;
-using LibNet;
+using LibPlug.Interface;
 using Newtonsoft.Json.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace LibLyricNetEase
@@ -16,35 +16,42 @@ namespace LibLyricNetEase
 
         public bool DownLoad(string artist, string songName, out byte[] lrcData, bool isOpenTrans)
         {
-            lrcData = null;
-            const string _requestUrl = @"http://music.163.com/api/search/get/web?csrf_token=";
-            const string _referer = @"http://music.163.com";
+            try
+            {
+                lrcData = null;
+                const string _requestUrl = @"http://music.163.com/api/search/get/web?csrf_token=";
+                const string _referer = @"http://music.163.com";
 
-            string _artistName = m_netUtils.URL_Encoding(artist, Encoding.UTF8);
-            string _songName = m_netUtils.URL_Encoding(songName, Encoding.UTF8);
-            string _searchKey = string.Format("{0}+{1}", _artistName, _songName);
+                string _artistName = m_netUtils.URL_Encoding(artist, Encoding.UTF8);
+                string _songName = m_netUtils.URL_Encoding(songName, Encoding.UTF8);
+                string _searchKey = string.Format("{0}+{1}", _artistName, _songName);
 
-            string _requestData = "&s=" + _searchKey + "&type=1&offset=0&total=true&limit=5";
-            string _result = m_netUtils.HttpPost(_requestUrl, Encoding.UTF8, _requestData, _referer);
-            string _sid = getSID(_result);
-            if (string.IsNullOrEmpty(_sid)) return false;
+                string _requestData = "&s=" + _searchKey + "&type=1&offset=0&total=true&limit=5";
+                string _result = m_netUtils.HttpPost(_requestUrl, Encoding.UTF8, _requestData, _referer);
+                string _sid = getSID(_result);
+                if (string.IsNullOrEmpty(_sid)) return false;
 
-            string _lrcUrl = "http://music.163.com/api/song/lyric?os=osx&id=" + _sid + "&lv=-1&kv=-1&tv=-1";
-            _result = m_netUtils.HttpGet(_lrcUrl, Encoding.UTF8, _referer);
+                string _lrcUrl = "http://music.163.com/api/song/lyric?os=osx&id=" + _sid + "&lv=-1&kv=-1&tv=-1";
+                _result = m_netUtils.HttpGet(_lrcUrl, Encoding.UTF8, _referer);
 
-            if (_result.Contains("nolyric")) return false;
-            if (_result.Contains("uncollected")) return false;
+                if (_result.Contains("nolyric")) return false;
+                if (_result.Contains("uncollected")) return false;
 
-            string _lyric = JObject.Parse(_result)["lrc"].ToString();
-            if (!_lyric.Contains("lyric")) return false;
-            string _lrc = JObject.Parse(_lyric)["lyric"].ToString();
-            string _trc = getTranslateLyric(_result);
-            string _lrcString;
-            if (isOpenTrans) _lrcString = splitLyricBuildResultValue(_lrc, _trc);
-            else _lrcString = _lrc;
+                string _lyric = JObject.Parse(_result)["lrc"].ToString();
+                if (!_lyric.Contains("lyric")) return false;
+                string _lrc = JObject.Parse(_lyric)["lyric"].ToString();
+                string _trc = getTranslateLyric(_result);
+                string _lrcString;
+                if (isOpenTrans) _lrcString = splitLyricBuildResultValue(_lrc, _trc);
+                else _lrcString = _lrc;
 
-            lrcData = Encoding.UTF8.GetBytes(_lrcString);
-            return true;
+                lrcData = Encoding.UTF8.GetBytes(_lrcString);
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -55,10 +62,7 @@ namespace LibLyricNetEase
         {
             JObject _jsonSid = JObject.Parse(json);
             if (!json.Contains("result")) return null;
-            if (_jsonSid["result"]["songCount"].Value<int>() == 0)
-            {
-                return null;
-            }
+            if (_jsonSid["result"]["songCount"].Value<int>() == 0) return null;
 
             JArray _jarraySID = (JArray)_jsonSid["result"]["songs"];
             return _jarraySID[0]["id"].ToString();
@@ -71,8 +75,8 @@ namespace LibLyricNetEase
         /// <returns></returns>
         private string getTranslateLyric(string json)
         {
-            if (!json.Contains("tlyric")) return null;
             JObject _jsonObj = JObject.Parse(json);
+            if (!json.Contains("tlyric")) return null;
             if (_jsonObj["tlyric"]["lyric"] == null) return null;
             else return _jsonObj["tlyric"]["lyric"].ToObject<string>();
         }

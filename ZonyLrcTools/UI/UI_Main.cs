@@ -1,17 +1,17 @@
-﻿using System;
+﻿using LibPlug;
+using LibPlug.Interface;
+using LibPlug.Model;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
-using System.Linq;
 using ZonyLrcTools.EnumDefine;
 using ZonyLrcTools.Untils;
-using LibPlug.Model;
-using LibPlug;
-using LibPlug.Interface;
-using System.Collections;
 
 namespace ZonyLrcTools.UI
 {
@@ -185,13 +185,11 @@ namespace ZonyLrcTools.UI
         {
             if (listView_MusicInfos.SelectedItems.Count != 0)
             {
-                #region > 获得选中条目的歌曲信息并且加入容器 <
                 var _tempDic = new Dictionary<int, MusicInfoModel>();
                 foreach (ListViewItem item in listView_MusicInfos.SelectedItems)
                 {
                     _tempDic.Add(item.Index, GlobalMember.AllMusics[item.Index]);
                 }
-                #endregion
                 parallelDownLoadAlbumImg(_tempDic);
             }
         }
@@ -284,14 +282,16 @@ namespace ZonyLrcTools.UI
                 {
                     foreach (var item in GlobalMember.AllMusics)
                     {
-                        string _newFileName = item.Value.SongName + "(" + item.Value.Artist + ")" + Path.GetExtension(item.Value.Path);
-                        string _newPath = Path.GetDirectoryName(item.Value.Path) + @"\" + _newFileName;
+                        string _newFilePath = $@"{Path.GetDirectoryName(item.Value.Path)}\{item.Value.SongName}({item.Value.Artist}){Path.GetExtension(item.Value.Path)}";
                         try
                         {
-                            File.Move(item.Value.Path, _newPath);
-                            item.Value.Path = _newPath;
+                            File.Move(item.Value.Path, _newFilePath);
+                            item.Value.Path = _newFilePath;
                         }
-                        catch { }
+                        catch (Exception E)
+                        {
+                            LogManager.WriteLogRecord(StatusHeadEnum.EXP, "更改文件名出现错误。", E);
+                        }
                     }
                     setBottomStatusText(StatusHeadEnum.COMPLETE, "更改文件名成功!");
                 });
