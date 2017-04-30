@@ -72,7 +72,14 @@ namespace ZonyLrcTools.UI
         private void clearContainer()
         {
             GlobalMember.AllMusics.Clear();
+            GlobalMember.MusicDownLoadStatus.Clear();
             listView_MusicInfos.Items.Clear();
+
+            textBox_Album.Text = string.Empty;
+            textBox_Aritst.Text = string.Empty;
+            textBox_Lryic.Text = string.Empty;
+            textBox_MusicTitle.Text = string.Empty;
+            pictureBox_AlbumImage.Image = null;
         }
 
         /// <summary>
@@ -98,19 +105,27 @@ namespace ZonyLrcTools.UI
                         return;
                     }
 
-                    bool _isSuccess = down.DownLoad(item.Value.Artist, item.Value.SongName, out byte[] _lrcData, SettingManager.SetValue.IsDownTranslate);
-                    if (!_isSuccess)
+                    try
                     {
-                        listView_MusicInfos.Items[item.Key].SubItems[6].Text = "失败";
-                        return;
+                        progress_DownLoad.Value += 1;
+                        bool _isSuccess = down.DownLoad(item.Value.Artist, item.Value.SongName, out byte[] _lrcData, SettingManager.SetValue.IsDownTranslate);
+
+                        if (!_isSuccess)
+                        {
+                            listView_MusicInfos.Items[item.Key].SubItems[6].Text = "失败";
+                            return;
+                        }
+
+                        string _lrcPath = FileUtils.BuildLrcPath(item.Value.Path, SettingManager.SetValue.UserDirectory);
+                        _lrcData = encodingConvert(_lrcData);
+                        FileUtils.WriteFile(_lrcPath, _lrcData);
+
+                        listView_MusicInfos.Items[item.Key].SubItems[6].Text = "成功";
                     }
-
-                    string _lrcPath = FileUtils.BuildLrcPath(item.Value.Path, SettingManager.SetValue.UserDirectory);
-                    _lrcData = encodingConvert(_lrcData);
-                    FileUtils.WriteFile(_lrcPath, _lrcData);
-
-                    listView_MusicInfos.Items[item.Key].SubItems[6].Text = "成功";
-                    progress_DownLoad.Value += 1;
+                    catch (System.Exception E)
+                    {
+                        LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在DownLoad函数当中发生错误.", E);
+                    }
                 });
                 setBottomStatusText(StatusHeadEnum.SUCCESS, "歌词下载完成！");
                 enabledButton();
@@ -192,6 +207,7 @@ namespace ZonyLrcTools.UI
         /// <param name="musics"></param>
         private async void getMusicInfoAndFillList(Dictionary<int, MusicInfoModel> musics)
         {
+            bindStatus();
             await Task.Run(() =>
             {
                 Parallel.ForEach(musics, (item) =>
@@ -204,6 +220,14 @@ namespace ZonyLrcTools.UI
                 setBottomStatusText(StatusHeadEnum.SUCCESS, string.Format("扫描成功，一共有{0}个音乐文件！", musics.Count));
                 enabledButton();
             });
+        }
+
+        private void bindStatus()
+        {
+            foreach (var item in GlobalMember.AllMusics)
+            {
+                GlobalMember.MusicDownLoadStatus.Add(item.Key, false);
+            }
         }
     }
 }

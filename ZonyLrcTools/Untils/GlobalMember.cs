@@ -36,5 +36,9 @@ namespace ZonyLrcTools.Untils
             }
             set { m_allMusics = value; }
         }
+        /// <summary>
+        /// 状态映射
+        /// </summary>
+        public static Dictionary<int, bool> MusicDownLoadStatus = new Dictionary<int, bool>();
     }
 }
