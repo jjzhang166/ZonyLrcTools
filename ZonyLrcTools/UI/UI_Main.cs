@@ -29,8 +29,10 @@ namespace ZonyLrcTools.UI
         /// <param name="e"></param>
         private void button_SetWorkDirectory_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog _folderDlg = new FolderBrowserDialog();
-            _folderDlg.Description = "请选择程序的工作目录:";
+            FolderBrowserDialog _folderDlg = new FolderBrowserDialog()
+            {
+                Description = "请选择程序的工作目录:"
+            };
             _folderDlg.ShowDialog();
 
             if (!string.IsNullOrEmpty(_folderDlg.SelectedPath))
@@ -117,15 +119,16 @@ namespace ZonyLrcTools.UI
             if (listView_MusicInfos.SelectedItems.Count > 0)
             {
                 int _selectIndex = listView_MusicInfos.SelectedItems[0].Index;
-                MusicInfoModel _info = GlobalMember.AllMusics[_selectIndex];
-
-                textBox_Aritst.Text = _info.Artist;
-                textBox_MusicTitle.Text = _info.SongName;
-                textBox_Album.Text = _info.Album;
-                Stream _imgStream = GlobalMember.MusicTagPluginsManager.Plugins[0].LoadAlbumImg(_info.Path);
-                if (_imgStream == null) pictureBox_AlbumImage.Image = null;
-                else pictureBox_AlbumImage.Image = Image.FromStream(_imgStream);
-                if (_info.IsBuildInLyric) textBox_Lryic.Text = GlobalMember.MusicTagPluginsManager.Plugins[0].LoadLyricText(_info.Path);
+                if(GlobalMember.AllMusics.TryGetValue(_selectIndex,out MusicInfoModel _info))
+                {
+                    textBox_Aritst.Text = _info.Artist;
+                    textBox_MusicTitle.Text = _info.SongName;
+                    textBox_Album.Text = _info.Album;
+                    Stream _imgStream = GlobalMember.MusicTagPluginsManager.Plugins[0].LoadAlbumImg(_info.Path);
+                    if (_imgStream == null) pictureBox_AlbumImage.Image = null;
+                    else pictureBox_AlbumImage.Image = Image.FromStream(_imgStream);
+                    if (_info.IsBuildInLyric) textBox_Lryic.Text = GlobalMember.MusicTagPluginsManager.Plugins[0].LoadLyricText(_info.Path);
+                }
             }
         }
 
@@ -215,8 +218,10 @@ namespace ZonyLrcTools.UI
         private void ToolStripMenuItem_AddDirectory_Click(object sender, EventArgs e)
         {
             disenabledButton(); progress_DownLoad.Value = 0;
-            FolderBrowserDialog _dlg = new FolderBrowserDialog();
-            _dlg.Description = "请选择歌曲文件夹";
+            FolderBrowserDialog _dlg = new FolderBrowserDialog()
+            {
+                Description = "请选择歌曲文件夹"
+            };
             if (_dlg.ShowDialog() == DialogResult.OK)
             {
                 if (Directory.Exists(_dlg.SelectedPath))
@@ -247,9 +252,11 @@ namespace ZonyLrcTools.UI
         {
             if (pictureBox_AlbumImage.Image != null)
             {
-                SaveFileDialog _dlg = new SaveFileDialog();
-                _dlg.Title = "保存专辑图像";
-                _dlg.Filter = "*.png|*.png|*.bmp|*.bmp";
+                SaveFileDialog _dlg = new SaveFileDialog()
+                {
+                    Title = "保存专辑图像",
+                    Filter = "*.png|*.png|*.bmp|*.bmp"
+                };
                 _dlg.ShowDialog();
                 if (!string.IsNullOrEmpty(_dlg.FileName))
                 {

@@ -29,5 +29,9 @@ namespace LibPlug.Model
         /// 主UI底部状态标签
         /// </summary>
         public ToolStripStatusLabel UI_Main_BottomLabel { get; set; }
+        /// <summary>
+        /// 主UI底部进度条
+        /// </summary>
+        public ToolStripProgressBar UI_Main_BottomProgressBar { get; set; }
     }
 }

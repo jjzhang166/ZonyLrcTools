@@ -47,6 +47,7 @@ namespace ZonyLrcTools.UI
             _res.UI_Main_ListView = listView_MusicInfos;
             _res.UI_Main_ListView_RightClickMenu = contextMenuStrip_FileListView;
             _res.UI_Main_TopButtonMenu = toolStrip_TopMenus;
+            _res.UI_Main_BottomProgressBar = progress_DownLoad;
             return _res;
         }
     }
