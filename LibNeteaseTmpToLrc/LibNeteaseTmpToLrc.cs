@@ -114,13 +114,10 @@ namespace LibNeteaseTmpToLrc
                             Regex _transReg = new Regex(@"\[\d+:\d+.\d+\].+");
                             var _transResult = _transReg.Matches(_transLrc);
                             // 分割并且并入英文歌词当中
-                            int _count = 0;
-                            foreach (var item in _transResult)
+                            for (int i = 0; i < _transResult.Count; i++)
                             {
-                                var _tmp = item.ToString();
-                                string[] _lrcItemArray = _tmp.Split(']');
-                                _lrcItem[_count] = string.Format("{0} {1}", _lrcItem[_count], _lrcItemArray[1]);
-                                _count++;
+                                string[] _lrcArray = _transResult[i].Value.Split(']');
+                                _lrcItem[i] = $"{_lrcItem} {_lrcArray[1]}";
                             }
                         }
                         else
