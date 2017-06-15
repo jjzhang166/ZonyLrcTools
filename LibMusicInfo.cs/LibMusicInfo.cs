@@ -76,7 +76,6 @@ namespace LibMusicInfo.cs
                 _info.Tag.Performers[0] = info.Artist;
                 _info.Tag.Album = info.Album;
 
-                MemoryStream _ms = null;
                 if (imgBytes != null)
                 {
                     // 将专辑图像数据添加进Mp3文件当中
@@ -88,7 +87,6 @@ namespace LibMusicInfo.cs
                 if (!string.IsNullOrEmpty(lyric)) _info.Tag.Lyrics = lyric;
 
                 _info.Save();
-                if (_ms != null) _ms.Close();
             }
             catch{ }
         }
