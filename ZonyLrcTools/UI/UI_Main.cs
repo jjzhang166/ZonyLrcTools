@@ -119,7 +119,7 @@ namespace ZonyLrcTools.UI
             if (listView_MusicInfos.SelectedItems.Count > 0)
             {
                 int _selectIndex = listView_MusicInfos.SelectedItems[0].Index;
-                if(GlobalMember.AllMusics.TryGetValue(_selectIndex,out MusicInfoModel _info))
+                if (GlobalMember.AllMusics.TryGetValue(_selectIndex, out MusicInfoModel _info))
                 {
                     textBox_Aritst.Text = _info.Artist;
                     textBox_MusicTitle.Text = _info.SongName;
@@ -361,6 +361,11 @@ namespace ZonyLrcTools.UI
                 _returnValue = string.Compare((x as ListViewItem).SubItems[6].Text, (y as ListViewItem).SubItems[6].Text);
                 return _returnValue;
             }
+        }
+
+        private void UI_Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LogManager.FlushLogData();
         }
     }
 }

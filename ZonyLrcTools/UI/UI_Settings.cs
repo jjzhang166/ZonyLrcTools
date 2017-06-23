@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZonyLrcTools.EnumDefine;
 using ZonyLrcTools.Untils;
 
 namespace ZonyLrcTools.UI
@@ -104,6 +106,25 @@ namespace ZonyLrcTools.UI
         private void button_LogManager_Click(object sender, EventArgs e)
         {
             new UI_LogManager().Show();
+        }
+
+        private void button_ClearLogFiles_Click(object sender, EventArgs e)
+        {
+            string _logFilesPath = Environment.CurrentDirectory + @"\LogFiles";
+            if (!Directory.Exists(_logFilesPath)) return;
+            string[] _files = Directory.GetFiles(_logFilesPath);
+            foreach (var file in _files)
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception E)
+                {
+                    LogManager.WriteLogRecord(StatusHeadEnum.EXP, "删除日志文件失败!", E);
+                }
+            }
+            MessageBox.Show("清理日志文件成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

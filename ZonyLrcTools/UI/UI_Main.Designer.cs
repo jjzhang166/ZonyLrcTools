@@ -199,7 +199,7 @@ namespace ZonyLrcTools.UI
             this.toolStripMenuItem2,
             this.ToolStripMenuItem_CleanListItems});
             this.contextMenuStrip_FileListView.Name = "contextMenuStrip_FileListView";
-            this.contextMenuStrip_FileListView.Size = new System.Drawing.Size(197, 170);
+            this.contextMenuStrip_FileListView.Size = new System.Drawing.Size(197, 148);
             // 
             // ToolStripMenuItem_EditLyric
             // 
@@ -480,6 +480,7 @@ namespace ZonyLrcTools.UI
             this.Name = "UI_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ZonyLrcTools";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_Main_FormClosing);
             this.Load += new System.EventHandler(this.UI_Main_Load);
             this.toolStrip_TopMenus.ResumeLayout(false);
             this.toolStrip_TopMenus.PerformLayout();

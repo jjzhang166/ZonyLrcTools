@@ -45,9 +45,9 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.checkBox_IsDownTranslate = new System.Windows.Forms.CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.button_SaveSetting = new System.Windows.Forms.Button();
-            this.button_LogManager = new System.Windows.Forms.Button();
             this.button_ClearLogFiles = new System.Windows.Forms.Button();
+            this.button_LogManager = new System.Windows.Forms.Button();
+            this.button_SaveSetting = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -166,12 +166,12 @@
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // button_SaveSetting
+            // button_ClearLogFiles
             // 
-            resources.ApplyResources(this.button_SaveSetting, "button_SaveSetting");
-            this.button_SaveSetting.Name = "button_SaveSetting";
-            this.button_SaveSetting.UseVisualStyleBackColor = true;
-            this.button_SaveSetting.Click += new System.EventHandler(this.button_SaveSetting_Click);
+            resources.ApplyResources(this.button_ClearLogFiles, "button_ClearLogFiles");
+            this.button_ClearLogFiles.Name = "button_ClearLogFiles";
+            this.button_ClearLogFiles.UseVisualStyleBackColor = true;
+            this.button_ClearLogFiles.Click += new System.EventHandler(this.button_ClearLogFiles_Click);
             // 
             // button_LogManager
             // 
@@ -180,12 +180,12 @@
             this.button_LogManager.UseVisualStyleBackColor = true;
             this.button_LogManager.Click += new System.EventHandler(this.button_LogManager_Click);
             // 
-            // button_ClearLogFiles
+            // button_SaveSetting
             // 
-            resources.ApplyResources(this.button_ClearLogFiles, "button_ClearLogFiles");
-            this.button_ClearLogFiles.Name = "button_ClearLogFiles";
-            this.button_ClearLogFiles.UseVisualStyleBackColor = true;
-            this.button_ClearLogFiles.Click += new System.EventHandler(this.button_LogManager_Click);
+            resources.ApplyResources(this.button_SaveSetting, "button_SaveSetting");
+            this.button_SaveSetting.Name = "button_SaveSetting";
+            this.button_SaveSetting.UseVisualStyleBackColor = true;
+            this.button_SaveSetting.Click += new System.EventHandler(this.button_SaveSetting_Click);
             // 
             // UI_Settings
             // 

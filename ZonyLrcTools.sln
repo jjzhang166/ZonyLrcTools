@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZonyLrcTools", "ZonyLrcTools\ZonyLrcTools.csproj", "{7B913615-3AEB-4295-A64A-BEF91DF93C71}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibLyricBaiDuMusicTests", "LibLyricBaiDuMusicTests\LibLyricBaiDuMusicTests.csproj", "{3385CC09-C68D-4436-A9FF-8859112D3C8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibNeteaseTmpToLrc", "LibNeteaseTmpToLrc\LibNeteaseTmpToLrc.csproj", "{69056FED-0036-4714-B5E3-E43AF03D0159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibRenameFile", "LibRenameFile\LibRenameFile.csproj", "{E42A252B-09AD-4EF5-9719-E202E4BA2817}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{69056FED-0036-4714-B5E3-E43AF03D0159}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69056FED-0036-4714-B5E3-E43AF03D0159}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69056FED-0036-4714-B5E3-E43AF03D0159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E42A252B-09AD-4EF5-9719-E202E4BA2817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E42A252B-09AD-4EF5-9719-E202E4BA2817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E42A252B-09AD-4EF5-9719-E202E4BA2817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E42A252B-09AD-4EF5-9719-E202E4BA2817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ZonyLrcTools.Untils
 {
@@ -13,11 +16,14 @@ namespace ZonyLrcTools.Untils
         private static string m_logPath = Environment.CurrentDirectory + @"\LogFiles\";
         private static object m_lockObj = new object();
 
+        private static readonly List<LogModel> m_logList;
+
         static LogManager()
         {
             if (!Directory.Exists(m_logPath)) Directory.CreateDirectory(m_logPath);
             m_logName = DateTime.Now.ToString("yyyyMMddHHmmss") + ".log";
             m_logFile = new FileStream(Path.Combine(m_logPath, m_logName), FileMode.OpenOrCreate);
+            m_logList = new List<LogModel>();
         }
 
         /// <summary>
@@ -30,26 +36,38 @@ namespace ZonyLrcTools.Untils
         {
             lock (m_lockObj)
             {
-                if (m_logFile != null)
+                m_logList.Add(new LogModel()
                 {
-                    StreamWriter _sw = new StreamWriter(m_logFile);
-                    _sw.Write(buildWriteString(status, text, e));
-                    _sw.Flush();
-                    m_logFile.Flush();
-                }
+                    Status = status,
+                    Information = text,
+                    ErrorInfo = e?.Message ?? e?.InnerException?.Message ?? "无",
+                    ErrorStack = e?.StackTrace ?? e?.InnerException?.StackTrace ?? "无"
+                });
             }
         }
 
         /// <summary>
-        /// 构建写入文本
+        /// 保存日志信息
         /// </summary>
-        private static string buildWriteString(string status, string text, Exception e)
+        public static void FlushLogData()
         {
-            return $"状态:{status}\r\n" +
-                       $"信息:{text}\r\n" +
-                       $"错误信息:{e?.Message ?? e?.InnerException?.Message ?? "无"}\r\n" +
-                       $"错误堆栈:{e?.StackTrace ?? e?.InnerException?.StackTrace ?? "无"}\r\n" +
-                       $"{new string('=',97)}\r\n";
+            StreamWriter _sw = new StreamWriter(m_logFile);
+            _sw.Write(JsonConvert.SerializeObject(m_logList));
+            _sw.Flush();
+            m_logFile.Flush();
+            _sw.Close();
+            m_logFile.Close();
         }
+    }
+
+    /// <summary>
+    /// 日志模型
+    /// </summary>
+    public sealed class LogModel
+    {
+        public string Status { get; set; }
+        public string Information { get; set; }
+        public string ErrorInfo { get; set; }
+        public string ErrorStack { get; set; }
     }
 }
