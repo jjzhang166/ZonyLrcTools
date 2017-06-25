@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LibNet;
+using System;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using LibNet;
 using ZonyLrcTools.EnumDefine;
 
 namespace ZonyLrcTools.Untils

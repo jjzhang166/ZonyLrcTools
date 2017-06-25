@@ -1,11 +1,9 @@
 ﻿using LibPlug;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LibPlug.Interface;
 using LibPlug.Model;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace LibRenameFile
@@ -32,6 +30,44 @@ namespace LibRenameFile
             _item.Click += itemClickEvent;
         }
 
+        /// <summary>
+        /// 构建新文件名称
+        /// </summary>
+        /// <returns></returns>
+        private string buildNewFileName(string sourceFileName)
+        {
+            string _newFileName = $"{ Path.GetDirectoryName(sourceFileName)}";
+            return null;
+        }
+
+        /// <summary>
+        /// 重置UI的进度条
+        /// </summary>
+        /// <param name="progressMaximun">进度条终值</param>
+        private void resetUICounter(int progressMaximun = 0)
+        {
+            m_resourceModel.UI_Main_BottomProgressBar.Maximum = progressMaximun;
+        }
+
+        /// <summary>
+        /// 启用顶部按钮
+        /// </summary>
+        private void enableTopMenu()
+        {
+
+        }
+
+        /// <summary>
+        /// 禁用顶部按钮
+        /// </summary>
+        private void disEnableTopMeun()
+        {
+
+        }
+
+        /// <summary>
+        /// 菜单点击事件
+        /// </summary>
         private void itemClickEvent(object sender, EventArgs e)
         {
             if (MessageBox.Show(text: "是否重命名列表当中的歌曲文件？", caption: "提示", icon: MessageBoxIcon.Information, buttons: MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -42,6 +78,14 @@ namespace LibRenameFile
                     return;
                 }
 
+                List<string> _newFileNames = new List<string>(m_resourceModel.MusicInfos.Count);
+                // 构建新的文件路径
+                foreach (var file in m_resourceModel.MusicInfos)
+                {
+                    FileInfo _info = new FileInfo(file.Value.Path);
+                    string _newFileName = buildNewFileName(_info.FullName);
+                    if (File.Exists(_newFileName)) return;
+                }
             }
             else
             {
