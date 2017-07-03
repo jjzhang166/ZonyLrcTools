@@ -47,7 +47,8 @@ namespace ZonyLrcTools.UI
 
                 if (_files.Length > 0)
                 {
-                    progress_DownLoad.Value = 0; progress_DownLoad.Maximum = GlobalMember.AllMusics.Count;
+                    progress_DownLoad.Value = 0;
+                    progress_DownLoad.Maximum = GlobalMember.AllMusics.Count;
                     getMusicInfoAndFillList(GlobalMember.AllMusics);
                 }
                 else

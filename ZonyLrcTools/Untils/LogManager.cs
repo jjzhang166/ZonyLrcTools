@@ -58,6 +58,18 @@ namespace ZonyLrcTools.Untils
             _sw.Close();
             m_logFile.Close();
         }
+
+        /// <summary>
+        /// 读取日志文件信息
+        /// </summary>
+        /// <param name="filePath">日志文件路径</param>
+        /// <returns></returns>
+        public static List<LogModel> ReadLogFile(string filePath)
+        {
+            FileStream _fs = File.Open(filePath, FileMode.Open);
+            StreamReader _reader = new StreamReader(_fs);
+            return JsonConvert.DeserializeObject<List<LogModel>>(_reader.ReadToEnd());
+        }
     }
 
     /// <summary>

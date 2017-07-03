@@ -46,12 +46,18 @@ namespace LibSingleLyricSearch
                 string _fileName = string.Format("{0}{1}.lrc", item.SubItems[0].Text, item.SubItems[1].Text);
 
                 if (!Directory.Exists(_lyricPath)) Directory.CreateDirectory(_lyricPath);
-                using (FileStream _fs = new FileStream(string.Format("{0}{1}", _lyricPath + @"\", _fileName), FileMode.OpenOrCreate))
+                try
                 {
-                    byte[] _data = Encoding.UTF8.GetBytes(_lyricText);
-                    _fs.Write(_data, 0, _data.Length);
+                    using (FileStream _fs = new FileStream(string.Format("{0}{1}", _lyricPath + @"\", _fileName), FileMode.OpenOrCreate))
+                    {
+                        byte[] _data = Encoding.UTF8.GetBytes(_lyricText);
+                        _fs.Write(_data, 0, _data.Length);
+                    }
+                    MessageBox.Show("下载成功,歌词文件保存在工具的'Lyric'目录当中!", "成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }catch(Exception)
+                {
+
                 }
-                MessageBox.Show("下载成功,歌词文件保存在工具的'Lyric'目录当中!", "成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

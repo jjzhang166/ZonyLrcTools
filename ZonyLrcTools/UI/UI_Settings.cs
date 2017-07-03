@@ -112,7 +112,7 @@ namespace ZonyLrcTools.UI
         {
             string _logFilesPath = Environment.CurrentDirectory + @"\LogFiles";
             if (!Directory.Exists(_logFilesPath)) return;
-            string[] _files = Directory.GetFiles(_logFilesPath);
+            string[] _files = Directory.GetFiles(_logFilesPath, "*.log");
             foreach (var file in _files)
             {
                 try

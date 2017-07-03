@@ -34,10 +34,9 @@ namespace LibRenameFile
         /// 构建新文件名称
         /// </summary>
         /// <returns></returns>
-        private string buildNewFileName(string sourceFileName)
+        private string buildNewFileName(string sourceFileName, string artistName, string songName)
         {
-            string _newFileName = $"{ Path.GetDirectoryName(sourceFileName)}";
-            return null;
+            return $@"{ Path.GetDirectoryName(sourceFileName)}\{songName}-{artistName}{Path.GetExtension(sourceFileName)}";
         }
 
         /// <summary>
@@ -47,6 +46,7 @@ namespace LibRenameFile
         private void resetUICounter(int progressMaximun = 0)
         {
             m_resourceModel.UI_Main_BottomProgressBar.Maximum = progressMaximun;
+            m_resourceModel.UI_Main_BottomProgressBar.Value = 0;
         }
 
         /// <summary>
@@ -79,21 +79,25 @@ namespace LibRenameFile
                 }
 
                 List<string> _newFileNames = new List<string>(m_resourceModel.MusicInfos.Count);
+                resetUICounter(_newFileNames.Capacity);
                 // 构建新的文件路径
                 foreach (var file in m_resourceModel.MusicInfos)
                 {
                     FileInfo _info = new FileInfo(file.Value.Path);
-                    string _newFileName = buildNewFileName(_info.FullName);
+                    string _newFileName = buildNewFileName(_info.FullName, file.Value.Artist, file.Value.SongName);
                     if (File.Exists(_newFileName)) return;
-                }
-            }
-            else
-            {
-                var _folderDlg = new FolderBrowserDialog();
-                _folderDlg.ShowDialog();
-                if (!string.IsNullOrEmpty(_folderDlg.SelectedPath))
-                {
-
+                    try
+                    {
+                        _info.MoveTo(_newFileName);
+                        file.Value.Path = _newFileName;
+                        m_resourceModel.UI_Main_ListView.Items[file.Key].SubItems[6].Text = "成功";
+                        m_resourceModel.UI_Main_ListView.Items[file.Key].SubItems[0].Text = Path.GetFileNameWithoutExtension(file.Value.Path);
+                    }
+                    catch (Exception)
+                    {
+                        m_resourceModel.UI_Main_ListView.Items[file.Key].SubItems[6].Text = "失败";
+                    }
+                    m_resourceModel.UI_Main_BottomProgressBar.Value++;
                 }
             }
         }
