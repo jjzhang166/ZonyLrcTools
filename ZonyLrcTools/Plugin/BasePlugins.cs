@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ZonyLrcTools.Plugin
 {
-    public class BasePlugins<T>
+    public class BasePlugins<T> where T : class
     {
         /// <summary>
         /// 已加载的插件列表
@@ -15,9 +15,9 @@ namespace ZonyLrcTools.Plugin
         /// <summary>
         /// 插件信息列表
         /// </summary>
-        public List<PluginsAttribute> PluginInfos{ get; }
+        public List<PluginsAttribute> PluginInfos { get; }
         public Assembly DllAssembly { get; set; }
-        public Type Plug { get; set; }
+        public Type Plug { get; private set; }
 
         private Type m_infaceType;
 
@@ -41,7 +41,7 @@ namespace ZonyLrcTools.Plugin
             string[] _files = Directory.GetFiles(Environment.CurrentDirectory + @"\Plugins");
             PluginsAttribute _info = new PluginsAttribute();
 
-            foreach(var item in _files)
+            foreach (var item in _files)
             {
                 string _ext = Path.GetExtension(item);
                 if (!_ext.Equals(".dll")) continue;
@@ -50,9 +50,9 @@ namespace ZonyLrcTools.Plugin
                 {
                     Assembly _asm = DllAssembly = Assembly.UnsafeLoadFrom(item);
                     Type[] _types = _asm.GetTypes();
-                    foreach(var t in _types)
+                    foreach (var t in _types)
                     {
-                        if(t.GetInterface(m_infaceType.Name) != null)
+                        if (t.GetInterface(m_infaceType.Name) != null)
                         {
                             T _plug = (T)_asm.CreateInstance(t.FullName); Plug = t;
                             Plugins.Add(_plug);

@@ -21,7 +21,7 @@ namespace ZonyLrcTools.UI
 
         private void button_Save_Click(object sender, EventArgs e)
         {
-            foreach(ListViewItem item in listView_Plugins.Items)
+            foreach (ListViewItem item in listView_Plugins.Items)
             {
                 SettingManager.SetValue.PluginsStatus.FirstOrDefault(x => x.PluginName.Equals(item.SubItems[0].Text)).IsOpen = item.Checked;
             }
@@ -48,7 +48,7 @@ namespace ZonyLrcTools.UI
             });
         }
 
-        private void fillPluginsInfo<T>(BasePlugins<T> manager)
+        private void fillPluginsInfo<T>(BasePlugins<T> manager) where T : class
         {
             foreach (var item in manager.PluginInfos)
             {

@@ -110,6 +110,7 @@
             // 
             // listView_LyricList
             // 
+            this.listView_LyricList.AllowDrop = true;
             this.listView_LyricList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
@@ -121,6 +122,8 @@
             this.listView_LyricList.UseCompatibleStateImageBehavior = false;
             this.listView_LyricList.View = System.Windows.Forms.View.Details;
             this.listView_LyricList.ItemActivate += new System.EventHandler(this.listView_LyricList_ItemActivate);
+            this.listView_LyricList.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView_LyricList_DragEnter);
+            this.listView_LyricList.DragOver += new System.Windows.Forms.DragEventHandler(this.listView_LyricList_DragOver);
             // 
             // columnHeader1
             // 

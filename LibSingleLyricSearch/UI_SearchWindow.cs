@@ -5,17 +5,24 @@ using System.Windows.Forms;
 using LibNet;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using LibPlug.Model;
 
 namespace LibSingleLyricSearch
 {
     public partial class UI_SearchWindow : Form
     {
-        private NetUtils m_netUtils;
+        private readonly NetUtils m_netUtils;
+        private readonly ResourceModel m_resourceModel;
 
         public UI_SearchWindow()
         {
-            m_netUtils = new NetUtils();
             InitializeComponent();
+        }
+
+        public UI_SearchWindow(ResourceModel resource) : this()
+        {
+            m_netUtils = new NetUtils();
+            m_resourceModel = resource;
         }
 
         private void button_Search_Click(object sender, EventArgs e)
@@ -29,8 +36,8 @@ namespace LibSingleLyricSearch
             _artist = m_netUtils.URL_Encoding(textBox_Artist.Text, Encoding.UTF8);
             _songName = m_netUtils.URL_Encoding(textBox_SongName.Text, Encoding.UTF8);
 
-            string _buildKey = string.Format("{0}+{1}", _artist, _songName);
-            string _requestData = "&s=" + _buildKey + "&type=1&offset=0&total=true&limit=5";
+            string _buildKey = $"{_artist}+{_songName}";
+            string _requestData = $"&s={_buildKey}&type=1&offset=0&total=true&limit=5";
             string _result = m_netUtils.HttpPost(_requestUrl, Encoding.UTF8, _requestData, _referer);
 
             var _list = decodeSongList(_result);
@@ -43,20 +50,35 @@ namespace LibSingleLyricSearch
             {
                 string _lyricText = getLyricText(item.SubItems[2].Text);
                 string _lyricPath = Environment.CurrentDirectory + @"\Lyric";
-                string _fileName = string.Format("{0}{1}.lrc", item.SubItems[0].Text, item.SubItems[1].Text);
+                string _fileName = $"{item.SubItems[0].Text}{item.SubItems[1].Text}.lrc";
 
                 if (!Directory.Exists(_lyricPath)) Directory.CreateDirectory(_lyricPath);
                 try
                 {
-                    using (FileStream _fs = new FileStream(string.Format("{0}{1}", _lyricPath + @"\", _fileName), FileMode.OpenOrCreate))
+                    using (FileStream _fs = new FileStream($@"{_lyricPath}\{_fileName}", FileMode.OpenOrCreate))
                     {
                         byte[] _data = Encoding.UTF8.GetBytes(_lyricText);
                         _fs.Write(_data, 0, _data.Length);
                     }
                     MessageBox.Show("下载成功,歌词文件保存在工具的'Lyric'目录当中!", "成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }catch(Exception)
+                }
+                catch (Exception)
                 {
-
+                    if (MessageBox.Show(text: "歌曲IDv3有不符合规定的文件名称，无法保存，是否重命名lrc文件名称?", icon: MessageBoxIcon.Information, caption: "错误", buttons: MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    {
+                        SaveFileDialog _saveDialog = new SaveFileDialog() { Filter = "*.lrc|*.lrc", Title = "lrc另存为" };
+                        if (_saveDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            if (!string.IsNullOrEmpty(_saveDialog.FileName))
+                            {
+                                using (FileStream _saveFs = new FileStream($@"{_lyricPath}\{_saveDialog.FileName}", FileMode.OpenOrCreate))
+                                {
+                                    byte[] _data = Encoding.UTF8.GetBytes(_lyricText);
+                                    _saveFs.Write(_data, 0, _data.Length);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -138,6 +160,30 @@ namespace LibSingleLyricSearch
             /// 歌曲SID
             /// </summary>
             public string SongID { get; set; }
+        }
+
+        private void listView_LyricList_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Link;
+            }
+        }
+
+        private void listView_LyricList_DragOver(object sender, DragEventArgs e)
+        {
+            var _path = ((string[])e.Data.GetData(DataFormats.FileDrop));
+            if (_path.Length > 0)
+            {
+                MusicInfoModel _model = new MusicInfoModel
+                {
+                    Path = _path[0],
+                };
+                m_resourceModel.MusicTagUtils.LoadTag(_model.Path, _model);
+                textBox_Artist.Text = _model.Artist;
+                textBox_SongName.Text = _model.SongName;
+                button_Search_Click(sender, e);
+            }
         }
     }
 }

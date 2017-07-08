@@ -66,9 +66,13 @@ namespace ZonyLrcTools.Untils
         /// <returns></returns>
         public static List<LogModel> ReadLogFile(string filePath)
         {
-            FileStream _fs = File.Open(filePath, FileMode.Open);
-            StreamReader _reader = new StreamReader(_fs);
-            return JsonConvert.DeserializeObject<List<LogModel>>(_reader.ReadToEnd());
+            try
+            {
+                FileStream _fs = File.Open(filePath, FileMode.Open);
+                StreamReader _reader = new StreamReader(_fs);
+                return JsonConvert.DeserializeObject<List<LogModel>>(_reader.ReadToEnd());
+            }
+            catch (IOException) { return new List<LogModel>(); }
         }
     }
 

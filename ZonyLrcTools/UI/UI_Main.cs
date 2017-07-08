@@ -87,11 +87,10 @@ namespace ZonyLrcTools.UI
         {
             CheckForIllegalCrossThreadCalls = false;
             setBottomStatusText(StatusHeadEnum.WAIT, "等待用户操作...");
-            var _shareResource = resourceInit();
 
             if (GlobalMember.MusicTagPluginsManager.LoadPlugins() == 0) setBottomStatusText(StatusHeadEnum.ERROR, "加载MusicTag插件管理器失败...");
             if (GlobalMember.LrcPluginsManager.LoadPlugins() == 0) setBottomStatusText(StatusHeadEnum.ERROR, "加载歌词下载插件失败...");
-            if (GlobalMember.DIYPluginsManager.LoadPlugins(_shareResource) == 0) setBottomStatusText(StatusHeadEnum.ERROR, "自定义高级插件加载失败...");
+            if (GlobalMember.DIYPluginsManager.LoadPlugins(resourceInit()) == 0) setBottomStatusText(StatusHeadEnum.ERROR, "自定义高级插件加载失败...");
 
             SettingManager.Load();
             GlobalMember.DIYPluginsManager.InitPlugins(); //高级插件延迟加载
@@ -166,6 +165,7 @@ namespace ZonyLrcTools.UI
             List<IPlug_Lrc> _openPlugins = GlobalMember.LrcPluginsManager.BaseOnTypeGetPlugins(PluginTypesEnum.LrcSource);
             foreach (var item in _openPlugins)
             {
+                setBottomStatusText(StatusHeadEnum.NORMAL, $"{item.PlugInfo.PlugName} 正在进行下载...");
                 parallelDownLoadLryic(GlobalMember.AllMusics, item);
             }
         }

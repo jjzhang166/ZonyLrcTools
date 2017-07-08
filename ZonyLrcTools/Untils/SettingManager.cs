@@ -96,7 +96,7 @@ namespace ZonyLrcTools.Untils
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pluginsMgr"></param>
-        private static List<PluginStatusModel> loadPluginStatus<T>(BasePlugins<T> pluginsMgr)
+        private static List<PluginStatusModel> loadPluginStatus<T>(BasePlugins<T> pluginsMgr) where T : class
         {
             List<PluginStatusModel> _list = new List<PluginStatusModel>();
             foreach (var item in pluginsMgr.PluginInfos)

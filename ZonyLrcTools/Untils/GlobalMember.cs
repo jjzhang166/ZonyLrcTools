@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using LibPlug.Model;
+﻿using LibPlug.Model;
+using System.Collections.Generic;
 using ZonyLrcTools.Plugin;
 
 namespace ZonyLrcTools.Untils

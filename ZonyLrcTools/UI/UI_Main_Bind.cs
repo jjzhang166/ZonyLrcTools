@@ -1,6 +1,8 @@
 ﻿using LibPlug.Model;
 using System;
 using System.Windows.Forms;
+using System.Linq;
+using System.Collections.Generic;
 using ZonyLrcTools.Untils;
 
 namespace ZonyLrcTools.UI
@@ -48,6 +50,7 @@ namespace ZonyLrcTools.UI
             _res.UI_Main_ListView_RightClickMenu = contextMenuStrip_FileListView;
             _res.UI_Main_TopButtonMenu = toolStrip_TopMenus;
             _res.UI_Main_BottomProgressBar = progress_DownLoad;
+            _res.MusicTagUtils = GlobalMember.MusicTagPluginsManager.Plugins[0];
             return _res;
         }
     }

@@ -3,6 +3,7 @@ using LibPlug.Interface;
 using LibPlug.Model;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZonyLrcTools.EnumDefine;
@@ -87,49 +88,47 @@ namespace ZonyLrcTools.UI
         /// </summary>
         /// <param name="down">插件</param>
         /// <param name="list">待下载列表</param>
-        private async void parallelDownLoadLryic(Dictionary<int, MusicInfoModel> list, IPlug_Lrc down)
+        private void parallelDownLoadLryic(Dictionary<int, MusicInfoModel> list, IPlug_Lrc down)
         {
             setBottomStatusText(StatusHeadEnum.NORMAL, "正在下载歌词...");
+            disenabledButton();
             progress_DownLoad.Maximum = list.Count;
             progress_DownLoad.Value = 0;
-            disenabledButton();
 
-            await Task.Run(() =>
+            Parallel.ForEach(list.Where(x => !x.Value.IsSuccess), new ParallelOptions() { MaxDegreeOfParallelism = SettingManager.SetValue.DownloadThreadNum }, (item) =>
             {
-                Parallel.ForEach(list, new ParallelOptions() { MaxDegreeOfParallelism = SettingManager.SetValue.DownloadThreadNum }, (item) =>
+                string _path = FileUtils.BuildLrcPath(item.Value.Path);
+                if (SettingManager.SetValue.IsIgnoreExitsFile && File.Exists(_path))
                 {
-                    string _path = FileUtils.BuildLrcPath(item.Value.Path);
-                    if (SettingManager.SetValue.IsIgnoreExitsFile && File.Exists(_path))
+                    listView_MusicInfos.Items[item.Key].SubItems[6].Text = "略过";
+                    return;
+                }
+
+                try
+                {
+                    progress_DownLoad.Value += 1;
+                    bool _isSuccess = down.DownLoad(item.Value.Artist, item.Value.SongName, out byte[] _lrcData, SettingManager.SetValue.IsDownTranslate);
+
+                    if (!_isSuccess)
                     {
-                        listView_MusicInfos.Items[item.Key].SubItems[6].Text = "略过";
+                        listView_MusicInfos.Items[item.Key].SubItems[6].Text = "失败";
                         return;
                     }
 
-                    try
-                    {
-                        progress_DownLoad.Value += 1;
-                        bool _isSuccess = down.DownLoad(item.Value.Artist, item.Value.SongName, out byte[] _lrcData, SettingManager.SetValue.IsDownTranslate);
+                    string _lrcPath = FileUtils.BuildLrcPath(item.Value.Path, SettingManager.SetValue.UserDirectory);
+                    _lrcData = encodingConvert(_lrcData);
+                    FileUtils.WriteFile(_lrcPath, _lrcData);
 
-                        if (!_isSuccess)
-                        {
-                            listView_MusicInfos.Items[item.Key].SubItems[6].Text = "失败";
-                            return;
-                        }
-
-                        string _lrcPath = FileUtils.BuildLrcPath(item.Value.Path, SettingManager.SetValue.UserDirectory);
-                        _lrcData = encodingConvert(_lrcData);
-                        FileUtils.WriteFile(_lrcPath, _lrcData);
-
-                        listView_MusicInfos.Items[item.Key].SubItems[6].Text = "成功";
-                    }
-                    catch (System.Exception E)
-                    {
-                        LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在DownLoad函数当中发生错误.", E);
-                    }
-                });
-                setBottomStatusText(StatusHeadEnum.SUCCESS, "歌词下载完成！");
-                enabledButton();
+                    item.Value.IsSuccess = true;
+                    listView_MusicInfos.Items[item.Key].SubItems[6].Text = "成功";
+                }
+                catch (System.Exception E)
+                {
+                    LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在DownLoad函数当中发生错误.", E);
+                }
             });
+            setBottomStatusText(StatusHeadEnum.SUCCESS, "歌词下载完成！");
+            enabledButton();
         }
 
         /// <summary>
@@ -213,6 +212,7 @@ namespace ZonyLrcTools.UI
                 Parallel.ForEach(musics, (item) =>
                 {
                     GlobalMember.MusicTagPluginsManager.Plugins[0].LoadTag(item.Value.Path, item.Value);
+                    item.Value.IsSuccess = false;
                     progress_DownLoad.Value += 1;
                 });
                 fillMusicListView(musics);

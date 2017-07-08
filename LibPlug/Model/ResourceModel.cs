@@ -1,4 +1,5 @@
-﻿using LibPlug.UI;
+﻿using LibPlug.Interface;
+using LibPlug.UI;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -33,5 +34,9 @@ namespace LibPlug.Model
         /// 主UI底部进度条
         /// </summary>
         public ToolStripProgressBar UI_Main_BottomProgressBar { get; set; }
+        /// <summary>
+        /// 音乐信息读取插件
+        /// </summary>
+        public IPlug_MusicTag MusicTagUtils { get; set; }
     }
 }

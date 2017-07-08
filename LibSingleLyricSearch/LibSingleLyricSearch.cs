@@ -1,7 +1,7 @@
-﻿using System;
+﻿using LibPlug;
 using LibPlug.Interface;
-using LibPlug;
 using LibPlug.Model;
+using System;
 
 namespace LibSingleLyricSearch
 {
@@ -9,13 +9,11 @@ namespace LibSingleLyricSearch
     public class LibSingleLyricSearch : IPlug_DIY
     {
         public PluginsAttribute PlugInfo { get; set; }
-        private ResourceModel m_shareResource;
 
         public void Init(ResourceModel shareResModel)
         {
-            m_shareResource = shareResModel;
-            var _buttonRef = m_shareResource.UI_Main_TopButtonMenu.Items.Add("歌词搜索");
-            _buttonRef.Click += (object sender, EventArgs e) => { new UI_SearchWindow().Show(); };
+            var _buttonRef = shareResModel.UI_Main_TopButtonMenu.Items.Add("歌词搜索");
+            _buttonRef.Click += (object sender, EventArgs e) => { new UI_SearchWindow(shareResModel).Show(); };
         }
     }
 }
