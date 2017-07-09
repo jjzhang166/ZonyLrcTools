@@ -143,6 +143,27 @@ namespace LibSingleLyricSearch
             return _jObj["lrc"] != null ? _jObj["lrc"]["lyric"].ToString() : "暂时没有歌词";
         }
 
+        private void listView_LyricList_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Link;
+        }
+
+        private void listView_LyricList_DragOver(object sender, DragEventArgs e)
+        {
+            var _path = ((string[])e.Data.GetData(DataFormats.FileDrop));
+            if (_path.Length > 0)
+            {
+                MusicInfoModel _model = new MusicInfoModel
+                {
+                    Path = _path[0],
+                };
+                m_resourceModel.MusicTagUtils.LoadTag(_model.Path, _model);
+                textBox_Artist.Text = _model.Artist;
+                textBox_SongName.Text = _model.SongName;
+                button_Search_Click(sender, e);
+            }
+        }
+
         /// <summary>
         /// 歌词结果模型
         /// </summary>
@@ -160,30 +181,6 @@ namespace LibSingleLyricSearch
             /// 歌曲SID
             /// </summary>
             public string SongID { get; set; }
-        }
-
-        private void listView_LyricList_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Link;
-            }
-        }
-
-        private void listView_LyricList_DragOver(object sender, DragEventArgs e)
-        {
-            var _path = ((string[])e.Data.GetData(DataFormats.FileDrop));
-            if (_path.Length > 0)
-            {
-                MusicInfoModel _model = new MusicInfoModel
-                {
-                    Path = _path[0],
-                };
-                m_resourceModel.MusicTagUtils.LoadTag(_model.Path, _model);
-                textBox_Artist.Text = _model.Artist;
-                textBox_SongName.Text = _model.SongName;
-                button_Search_Click(sender, e);
-            }
         }
     }
 }
