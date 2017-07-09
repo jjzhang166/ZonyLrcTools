@@ -23,7 +23,7 @@ namespace ZonyLrcTools.Untils
             using (TextReader _reader = provider())
             {
                 string _line;
-                while((_line = _reader.ReadLine()) != null)
+                while ((_line = _reader.ReadLine()) != null)
                 {
                     yield return _line;
                 }
@@ -68,6 +68,7 @@ namespace ZonyLrcTools.Untils
                 using (FileStream _fs = new FileStream(filePath, FileMode.OpenOrCreate))
                 {
                     _fs.Write(_dataBytes, 0, _dataBytes.Length);
+                    return true;
                 }
             }
             catch (Exception E)
@@ -75,7 +76,6 @@ namespace ZonyLrcTools.Untils
                 LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在方法WriteFile发生异常!", E);
                 return false;
             }
-            return false;
         }
 
         /// <summary>
@@ -125,9 +125,9 @@ namespace ZonyLrcTools.Untils
         /// </summary>
         /// <param name="musicPath">音乐文件路径</param>
         /// <returns></returns>
-        public static string BuildLrcPath(string musicPath,string destDirectory = null)
+        public static string BuildLrcPath(string musicPath, string destDirectory = null)
         {
-            if(string.IsNullOrEmpty(destDirectory))
+            if (string.IsNullOrEmpty(destDirectory))
             {
                 string _fileName = Path.GetFileNameWithoutExtension(musicPath);
                 string _filePath = Path.GetDirectoryName(musicPath);

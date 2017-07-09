@@ -51,12 +51,15 @@ namespace ZonyLrcTools.Untils
         /// </summary>
         public static void FlushLogData()
         {
-            StreamWriter _sw = new StreamWriter(m_logFile);
-            _sw.Write(JsonConvert.SerializeObject(m_logList));
-            _sw.Flush();
-            m_logFile.Flush();
-            _sw.Close();
-            m_logFile.Close();
+            using (m_logFile)
+            {
+                using (StreamWriter _sw = new StreamWriter(m_logFile))
+                {
+                    _sw.Write(JsonConvert.SerializeObject(m_logList));
+                    _sw.Flush();
+                }
+                m_logFile.Flush();
+            }
         }
 
         /// <summary>
