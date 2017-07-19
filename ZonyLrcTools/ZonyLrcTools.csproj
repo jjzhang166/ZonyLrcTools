@@ -119,6 +119,12 @@
     <Compile Include="UI\UI_Main_PrivateFunc.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\UI_PluginDownLoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\UI_PluginDownLoad.Designer.cs">
+      <DependentUpon>UI_PluginDownLoad.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UI_PluginSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UI_Main.resx">
       <DependentUpon>UI_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UI_PluginDownLoad.resx">
+      <DependentUpon>UI_PluginDownLoad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UI_PluginSelect.resx">
       <DependentUpon>UI_PluginSelect.cs</DependentUpon>
