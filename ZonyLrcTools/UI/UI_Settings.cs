@@ -41,6 +41,7 @@ namespace ZonyLrcTools.UI
                     comboBox_Encoding.Items.Add(item.Name);
                 }
                 comboBox_Encoding.Items.Add("utf-8 bom");
+                comboBox_Encoding.Items.Add("utf-16");
                 comboBox_Encoding.Items.Add("ANSI");
             });
         }

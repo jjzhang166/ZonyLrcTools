@@ -89,9 +89,10 @@ namespace LibLyricNetEase
         /// <returns></returns>
         private string splitLyricBuildResultValue(string lyric, string tlyric)
         {
-            if (string.IsNullOrEmpty(tlyric)) return lyric;
+            if (string.IsNullOrEmpty(tlyric)) return modfiyTranslateLyricTimeAxis(lyric);
 
-            return lyric + /*modfiyTranslateLyricTimeAxis(tlyric);*/tlyric;
+            //return lyric + /*modfiyTranslateLyricTimeAxis(tlyric);*/tlyric;
+            return $"{modfiyTranslateLyricTimeAxis(lyric)}{modfiyTranslateLyricTimeAxis(tlyric)}";
         }
 
         /// <summary>
@@ -107,9 +108,8 @@ namespace LibLyricNetEase
                  try
                  {
                      string[] _strs = machs.Value.Split('.');
-                     string _value = _strs[1].Remove(_strs[1].Length - 1);
+                     string _value = _strs[1].Remove(_strs[1].Length - 2);
                      int _iValue = int.Parse(_value);
-                     _iValue -= 1;
                      return string.Format("{0}.{1:D2}]", _strs[0], _iValue);
                  }
                  catch
