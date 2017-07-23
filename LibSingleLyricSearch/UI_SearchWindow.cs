@@ -71,7 +71,7 @@ namespace LibSingleLyricSearch
                         {
                             if (!string.IsNullOrEmpty(_saveDialog.FileName))
                             {
-                                using (FileStream _saveFs = new FileStream($@"{_lyricPath}\{_saveDialog.FileName}", FileMode.OpenOrCreate))
+                                using (FileStream _saveFs = new FileStream(_saveDialog.FileName, FileMode.OpenOrCreate))
                                 {
                                     byte[] _data = Encoding.UTF8.GetBytes(_lyricText);
                                     _saveFs.Write(_data, 0, _data.Length);
