@@ -6,7 +6,7 @@ Hamed J.I 的ID3Class项目 [http://www.codeproject.com/Articles/17890/Do-Anythi
 TagLib标签库：[http://taglib.org/](http://taglib.org/)
 
 ## 发行版下载地址
-http://myzony.com/usr/uploads/ZonyLrc/0.0.3.0.zip
+http://myzony.com/usr/uploads/ZonyLrc/ZonyLrcTools%200.0.3.0.zip
 
 ## 程序截图
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1117/113750_a9f9a2a3_24648.png "在这里输入图片标题")
