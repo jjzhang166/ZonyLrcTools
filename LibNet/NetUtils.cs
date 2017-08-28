@@ -102,5 +102,25 @@ namespace LibNet
 
             return _sb.ToString();
         }
+
+        /// <summary>
+        /// 构造HTTP方法提交参数列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public string BuildHttpMethodParamters(object param)
+        {
+            var _type = param.GetType();
+            var _propertys = _type.GetProperties();
+            StringBuilder _builder = new StringBuilder();
+            _builder.Append('&');
+
+            foreach (var item in _propertys)
+            {
+                _builder.Append($"{item.Name}={item.GetValue(param)}&");
+            }
+
+            return _builder.ToString().TrimEnd('&');
+        }
     }
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using LibNet;
+using LibPlug.Model;
+using LibSingleLyricSearch.Models;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using LibNet;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using LibPlug.Model;
 
 namespace LibSingleLyricSearch
 {
@@ -13,6 +14,8 @@ namespace LibSingleLyricSearch
     {
         private readonly NetUtils m_netUtils;
         private readonly ResourceModel m_resourceModel;
+
+        private uint m_offset = 0;
 
         public UI_SearchWindow()
         {
@@ -27,21 +30,8 @@ namespace LibSingleLyricSearch
 
         private void button_Search_Click(object sender, EventArgs e)
         {
-            listView_LyricList.Items.Clear();
-
-            string _artist, _songName;
-            const string _requestUrl = @"http://music.163.com/api/search/get/web?csrf_token=";
-            const string _referer = @"http://music.163.com";
-
-            _artist = m_netUtils.URL_Encoding(textBox_Artist.Text, Encoding.UTF8);
-            _songName = m_netUtils.URL_Encoding(textBox_SongName.Text, Encoding.UTF8);
-
-            string _buildKey = $"{_artist}+{_songName}";
-            string _requestData = $"&s={_buildKey}&type=1&offset=0&total=true&limit=5";
-            string _result = m_netUtils.HttpPost(_requestUrl, Encoding.UTF8, _requestData, _referer);
-
-            var _list = decodeSongList(_result);
-            renderListView(_list);
+            m_offset = 0;
+            getLyricList();
         }
 
         private void ToolStripMenuItem_DownLoad_Click(object sender, EventArgs e)
@@ -115,6 +105,37 @@ namespace LibSingleLyricSearch
         }
 
         /// <summary>
+        /// 根据指定的参数获得歌词列表
+        /// </summary>
+        /// <param name="offset">条数偏移量</param>
+        private void getLyricList()
+        {
+            listView_LyricList.Items.Clear();
+
+            string _artist, _songName;
+            const string _requestUrl = @"http://music.163.com/api/search/get/web?csrf_token=";
+            const string _referer = @"http://music.163.com";
+
+            _artist = m_netUtils.URL_Encoding(textBox_Artist.Text, Encoding.UTF8);
+            _songName = m_netUtils.URL_Encoding(textBox_SongName.Text, Encoding.UTF8);
+
+            var _parameter = new
+            {
+                s = $"{_artist}+{_songName}",
+                type = 1,
+                offset = m_offset,
+                total = true,
+                limit = 5
+            };
+
+            string _requestData = m_netUtils.BuildHttpMethodParamters(_parameter);
+            string _result = m_netUtils.HttpPost(_requestUrl, Encoding.UTF8, _requestData, _referer);
+
+            var _list = decodeSongList(_result);
+            renderListView(_list);
+        }
+
+        /// <summary>
         /// 解析歌词列表
         /// </summary>
         /// <returns></returns>
@@ -163,23 +184,17 @@ namespace LibSingleLyricSearch
             JObject _jObj = JObject.Parse(_lyricJson);
             return _jObj["lrc"] != null ? _jObj["lrc"]["lyric"].ToString() : "暂时没有歌词";
         }
-        /// <summary>
-        /// 歌词结果模型
-        /// </summary>
-        private class SongListItem
+
+        private void button_NextPage_Click(object sender, EventArgs e)
         {
-            /// <summary>
-            /// 歌曲名称
-            /// </summary>
-            public string SongName { get; set; }
-            /// <summary>
-            /// 艺术家/歌手
-            /// </summary>
-            public string Artist { get; set; }
-            /// <summary>
-            /// 歌曲SID
-            /// </summary>
-            public string SongID { get; set; }
+            m_offset += 5;
+            getLyricList();
+        }
+
+        private void button_PreviousPage_Click(object sender, EventArgs e)
+        {
+            m_offset -= 5;
+            getLyricList();
         }
     }
 }
