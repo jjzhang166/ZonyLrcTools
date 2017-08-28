@@ -34,6 +34,18 @@ namespace LibSingleLyricSearch
             getLyricList();
         }
 
+        private void button_NextPage_Click(object sender, EventArgs e)
+        {
+            m_offset += 5;
+            getLyricList();
+        }
+
+        private void button_PreviousPage_Click(object sender, EventArgs e)
+        {
+            m_offset -= 5;
+            getLyricList();
+        }
+
         private void ToolStripMenuItem_DownLoad_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in listView_LyricList.SelectedItems)
@@ -183,18 +195,6 @@ namespace LibSingleLyricSearch
 
             JObject _jObj = JObject.Parse(_lyricJson);
             return _jObj["lrc"] != null ? _jObj["lrc"]["lyric"].ToString() : "暂时没有歌词";
-        }
-
-        private void button_NextPage_Click(object sender, EventArgs e)
-        {
-            m_offset += 5;
-            getLyricList();
-        }
-
-        private void button_PreviousPage_Click(object sender, EventArgs e)
-        {
-            m_offset -= 5;
-            getLyricList();
         }
     }
 }
