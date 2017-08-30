@@ -1,10 +1,9 @@
-﻿using LibPlug.Model;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Diagnostics;
 using ZonyLrcTools.EnumDefine;
-using System.Collections.Generic;
 
 namespace ZonyLrcTools.Untils
 {
