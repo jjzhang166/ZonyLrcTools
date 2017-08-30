@@ -101,18 +101,18 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_DownLoad});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(99, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 26);
             // 
             // ToolStripMenuItem_DownLoad
             // 
             this.ToolStripMenuItem_DownLoad.Name = "ToolStripMenuItem_DownLoad";
-            this.ToolStripMenuItem_DownLoad.Size = new System.Drawing.Size(98, 22);
+            this.ToolStripMenuItem_DownLoad.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_DownLoad.Text = "下载";
             this.ToolStripMenuItem_DownLoad.Click += new System.EventHandler(this.ToolStripMenuItem_DownLoad_Click);
             // 
             // button_PreviousPage
             // 
-            this.button_PreviousPage.Location = new System.Drawing.Point(99, 243);
+            this.button_PreviousPage.Location = new System.Drawing.Point(12, 243);
             this.button_PreviousPage.Name = "button_PreviousPage";
             this.button_PreviousPage.Size = new System.Drawing.Size(75, 23);
             this.button_PreviousPage.TabIndex = 7;
@@ -122,7 +122,7 @@
             // 
             // button_NextPage
             // 
-            this.button_NextPage.Location = new System.Drawing.Point(283, 243);
+            this.button_NextPage.Location = new System.Drawing.Point(364, 243);
             this.button_NextPage.Name = "button_NextPage";
             this.button_NextPage.Size = new System.Drawing.Size(75, 23);
             this.button_NextPage.TabIndex = 7;

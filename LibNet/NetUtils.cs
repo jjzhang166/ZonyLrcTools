@@ -113,7 +113,7 @@ namespace LibNet
             var _type = param.GetType();
             var _propertys = _type.GetProperties();
             StringBuilder _builder = new StringBuilder();
-            _builder.Append('&');
+            _builder.Append('?');
 
             foreach (var item in _propertys)
             {

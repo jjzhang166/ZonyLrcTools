@@ -15,7 +15,8 @@ namespace LibSingleLyricSearch
         private readonly NetUtils m_netUtils;
         private readonly ResourceModel m_resourceModel;
 
-        private uint m_offset = 0;
+        private int m_offset = 0;
+        private int m_maxOffset = 0;
 
         public UI_SearchWindow()
         {
@@ -36,13 +37,13 @@ namespace LibSingleLyricSearch
 
         private void button_NextPage_Click(object sender, EventArgs e)
         {
-            m_offset += 5;
+            m_offset = m_offset + 8 < m_maxOffset ? m_offset + 8 : m_offset;
             getLyricList();
         }
 
         private void button_PreviousPage_Click(object sender, EventArgs e)
         {
-            m_offset -= 5;
+            m_offset = m_offset - 8 < 0 ? 0 : m_offset - 8;
             getLyricList();
         }
 
@@ -125,7 +126,7 @@ namespace LibSingleLyricSearch
             listView_LyricList.Items.Clear();
 
             string _artist, _songName;
-            const string _requestUrl = @"http://music.163.com/api/search/get/web?csrf_token=";
+            const string _requestUrl = @"http://music.163.com/api/search/get/web";
             const string _referer = @"http://music.163.com";
 
             _artist = m_netUtils.URL_Encoding(textBox_Artist.Text, Encoding.UTF8);
@@ -133,11 +134,12 @@ namespace LibSingleLyricSearch
 
             var _parameter = new
             {
+                csrf_token = string.Empty,
                 s = $"{_artist}+{_songName}",
                 type = 1,
                 offset = m_offset,
                 total = true,
-                limit = 5
+                limit = 8
             };
 
             string _requestData = m_netUtils.BuildHttpMethodParamters(_parameter);
@@ -159,6 +161,8 @@ namespace LibSingleLyricSearch
             {
                 JObject _result = JObject.Parse(jsonList);
                 JArray _jArray = (JArray)_result["result"]["songs"];
+                // 设置最大偏移量
+                m_maxOffset = _result["result"]["songCount"].Value<int>();
                 foreach (var item in _jArray)
                 {
                     _resultList.Add(new SongListItem()
@@ -178,10 +182,7 @@ namespace LibSingleLyricSearch
         /// <param name="list">歌词列表</param>
         private void renderListView(List<SongListItem> list)
         {
-            foreach (var item in list)
-            {
-                listView_LyricList.Items.Add(new ListViewItem(new string[] { item.SongName, item.Artist, item.SongID }));
-            }
+            list.ForEach(item => listView_LyricList.Items.Add(new ListViewItem(new string[] { item.SongName, item.Artist, item.SongID })));
         }
 
         /// <summary>
