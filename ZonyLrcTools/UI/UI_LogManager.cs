@@ -64,5 +64,10 @@ namespace ZonyLrcTools.UI
         {
 
         }
+
+        private void listBox_FileViewer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
