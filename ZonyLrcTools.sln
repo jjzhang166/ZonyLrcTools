@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZonyLrcTools", "ZonyLrcTools\ZonyLrcTools.csproj", "{7B913615-3AEB-4295-A64A-BEF91DF93C71}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibNeteaseTmpToLrc", "LibNeteaseTmpToLrc\LibNeteaseTmpToLrc.csproj", "{69056FED-0036-4714-B5E3-E43AF03D0159}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibRenameFile", "LibRenameFile\LibRenameFile.csproj", "{E42A252B-09AD-4EF5-9719-E202E4BA2817}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibExportMusicItems", "LibExportMusicItems\LibExportMusicItems.csproj", "{4F30A4DC-C968-4451-89E9-8996C4294D4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,8 +83,15 @@ Global
 		{E42A252B-09AD-4EF5-9719-E202E4BA2817}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E42A252B-09AD-4EF5-9719-E202E4BA2817}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E42A252B-09AD-4EF5-9719-E202E4BA2817}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F30A4DC-C968-4451-89E9-8996C4294D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F30A4DC-C968-4451-89E9-8996C4294D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F30A4DC-C968-4451-89E9-8996C4294D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F30A4DC-C968-4451-89E9-8996C4294D4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9BDB54F-F53A-4F19-AB04-4BB80E07E8FE}
 	EndGlobalSection
 EndGlobal

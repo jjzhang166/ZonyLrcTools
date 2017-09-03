@@ -35,7 +35,7 @@ namespace ZonyLrcTools.UI
             button_FeedBack.Click += delegate { new UI_FeedBack().ShowDialog(); };
             button_Setting.Click += delegate { new UI_Settings().ShowDialog(); };
             this.FormClosed += delegate { Environment.Exit(0); };
-            ToolStripMenuItem_CleanListItems.Click += delegate { clearContainer(); };
+            ToolStripMenuItem_CleanListItems.Click += delegate { clearUI(); };
         }
 
         /// <summary>

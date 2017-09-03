@@ -1,6 +1,7 @@
 ﻿using LibPlug;
 using LibPlug.Interface;
 using LibPlug.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -70,7 +71,7 @@ namespace ZonyLrcTools.UI
         /// <summary>
         /// 清空歌曲容器
         /// </summary>
-        private void clearContainer()
+        private void clearUI()
         {
             GlobalMember.AllMusics.Clear();
             GlobalMember.MusicDownLoadStatus.Clear();
@@ -97,6 +98,8 @@ namespace ZonyLrcTools.UI
 
             Parallel.ForEach(list.Where(x => !x.Value.IsSuccess), new ParallelOptions() { MaxDegreeOfParallelism = SettingManager.SetValue.DownloadThreadNum }, (item) =>
             {
+                progress_DownLoad.Value += 1;
+
                 string _path = FileUtils.BuildLrcPath(item.Value.Path);
                 if (SettingManager.SetValue.IsIgnoreExitsFile && File.Exists(_path))
                 {
@@ -106,7 +109,6 @@ namespace ZonyLrcTools.UI
 
                 try
                 {
-                    progress_DownLoad.Value += 1;
                     bool _isSuccess = down.DownLoad(item.Value.Artist, item.Value.SongName, out byte[] _lrcData, SettingManager.SetValue.IsDownTranslate);
 
                     if (!_isSuccess)
@@ -124,6 +126,7 @@ namespace ZonyLrcTools.UI
                 }
                 catch (System.Exception E)
                 {
+                    listView_MusicInfos.Items[item.Key].SubItems[6].Text = "异常";
                     LogManager.WriteLogRecord(StatusHeadEnum.EXP, "在DownLoad函数当中发生错误.", E);
                 }
             });
@@ -134,35 +137,32 @@ namespace ZonyLrcTools.UI
         /// <summary>
         /// 并行下载专辑图像任务
         /// </summary>
-        private async void parallelDownLoadAlbumImg(Dictionary<int, MusicInfoModel> list)
+        private void parallelDownLoadAlbumImg(Dictionary<int, MusicInfoModel> list)
         {
             setBottomStatusText(StatusHeadEnum.NORMAL, "正在下载专辑图像...");
             progress_DownLoad.Maximum = list.Count;
             progress_DownLoad.Value = 0;
             disenabledButton();
-            await Task.Run(() =>
+            Parallel.ForEach(list, new ParallelOptions() { MaxDegreeOfParallelism = SettingManager.SetValue.DownloadThreadNum }, (info) =>
             {
-                Parallel.ForEach(list, new ParallelOptions() { MaxDegreeOfParallelism = SettingManager.SetValue.DownloadThreadNum }, (info) =>
+                lock (info.Value)
                 {
-                    lock (info.Value)
+                    if (info.Value.IsAlbumImg) listView_MusicInfos.Items[info.Key].SubItems[6].Text = "略过";
+                    else
                     {
-                        if (info.Value.IsAlbumImg) listView_MusicInfos.Items[info.Key].SubItems[6].Text = "略过";
-                        else
+                        byte[] _imgBytes;
+                        if (GlobalMember.LrcPluginsManager.BaseOnTypeGetPlugins(PluginTypesEnum.AlbumImg)[0].DownLoad(info.Value.Artist, info.Value.SongName, out _imgBytes, SettingManager.SetValue.IsDownTranslate))
                         {
-                            byte[] _imgBytes;
-                            if (GlobalMember.LrcPluginsManager.BaseOnTypeGetPlugins(PluginTypesEnum.AlbumImg)[0].DownLoad(info.Value.Artist, info.Value.SongName, out _imgBytes, SettingManager.SetValue.IsDownTranslate))
-                            {
-                                GlobalMember.MusicTagPluginsManager.Plugins[0].SaveTag(info.Value, _imgBytes, string.Empty);
-                                listView_MusicInfos.Items[info.Key].SubItems[6].Text = "成功";
-                            }
-                            else listView_MusicInfos.Items[info.Key].SubItems[6].Text = "失败";
-                            progress_DownLoad.Value += 1;
+                            GlobalMember.MusicTagPluginsManager.Plugins[0].SaveTag(info.Value, _imgBytes, string.Empty);
+                            listView_MusicInfos.Items[info.Key].SubItems[6].Text = "成功";
                         }
+                        else listView_MusicInfos.Items[info.Key].SubItems[6].Text = "失败";
+                        progress_DownLoad.Value += 1;
                     }
-                });
-                setBottomStatusText(StatusHeadEnum.SUCCESS, "下载专辑图像完成...");
-                enabledButton();
+                }
             });
+            setBottomStatusText(StatusHeadEnum.SUCCESS, "下载专辑图像完成...");
+            enabledButton();
         }
 
         /// <summary>
@@ -204,22 +204,22 @@ namespace ZonyLrcTools.UI
         /// 获得歌曲信息并且填充列表
         /// </summary>
         /// <param name="musics"></param>
-        private async void getMusicInfoAndFillList(Dictionary<int, MusicInfoModel> musics)
+        private void getMusicInfoAndFillList(Dictionary<int, MusicInfoModel> musics)
         {
             bindStatus();
-            await Task.Run(() =>
+            int _i = 0;
+            Parallel.ForEach(musics, (item) =>
             {
-                Parallel.ForEach(musics, (item) =>
-                {
-                    GlobalMember.MusicTagPluginsManager.Plugins[0].LoadTag(item.Value.Path, item.Value);
-                    item.Value.IsSuccess = false;
-                    progress_DownLoad.Value += 1;
-                });
-                fillMusicListView(musics);
-                MessageBox.Show(string.Format("扫描成功，一共有{0}个音乐文件！", musics.Count), "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                setBottomStatusText(StatusHeadEnum.SUCCESS, string.Format("扫描成功，一共有{0}个音乐文件！", musics.Count));
-                enabledButton();
+                _i++;
+                Console.WriteLine("Count:" + _i);
+                GlobalMember.MusicTagPluginsManager.Plugins[0].LoadTag(item.Value.Path, item.Value);
+                item.Value.IsSuccess = false;
+                progress_DownLoad.Value += 1;
             });
+            fillMusicListView(musics);
+            MessageBox.Show(string.Format("扫描成功，一共有{0}个音乐文件！", musics.Count), "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            setBottomStatusText(StatusHeadEnum.SUCCESS, string.Format("扫描成功，一共有{0}个音乐文件！", musics.Count));
+            enabledButton();
         }
 
         private void bindStatus()

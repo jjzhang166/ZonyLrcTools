@@ -38,7 +38,7 @@ namespace ZonyLrcTools.UI
             if (!string.IsNullOrEmpty(_folderDlg.SelectedPath))
             {
                 disenabledButton();
-                clearContainer();
+                clearUI();
                 setBottomStatusText(StatusHeadEnum.NORMAL, "开始扫描目录...");
                 progress_DownLoad.Value = 0;
 
