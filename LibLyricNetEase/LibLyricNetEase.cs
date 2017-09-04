@@ -26,20 +26,24 @@ namespace LibLyricNetEase
                 string _songName = m_netUtils.URL_Encoding(songName, Encoding.UTF8);
                 string _searchKey = string.Format("{0}+{1}", _artistName, _songName);
 
+                // 获得要搜索歌曲的SID
                 string _requestData = "&s=" + _searchKey + "&type=1&offset=0&total=true&limit=5";
                 string _result = m_netUtils.HttpPost(_requestUrl, Encoding.UTF8, _requestData, _referer);
                 string _sid = getSID(_result);
                 if (string.IsNullOrEmpty(_sid)) return false;
 
+                // 根据SID请求歌词搜索结果
                 string _lrcUrl = "http://music.163.com/api/song/lyric?os=osx&id=" + _sid + "&lv=-1&kv=-1&tv=-1";
                 _result = m_netUtils.HttpGet(_lrcUrl, Encoding.UTF8, _referer);
 
                 if (_result.Contains("nolyric")) return false;
                 if (_result.Contains("uncollected")) return false;
+                if (string.IsNullOrWhiteSpace(_result)) return false;
 
                 string _lyric = JObject.Parse(_result)["lrc"].ToString();
                 if (!_lyric.Contains("lyric")) return false;
                 string _lrc = JObject.Parse(_lyric)["lyric"].ToString();
+                // 从数据当中获得翻译歌词
                 string _trc = getTranslateLyric(_result);
                 string _lrcString;
                 if (isOpenTrans) _lrcString = splitLyricBuildResultValue(_lrc, _trc);
@@ -91,15 +95,14 @@ namespace LibLyricNetEase
         {
             if (string.IsNullOrEmpty(tlyric)) return modfiyTranslateLyricTimeAxis(lyric);
 
-            //return lyric + /*modfiyTranslateLyricTimeAxis(tlyric);*/tlyric;
             return $"{modfiyTranslateLyricTimeAxis(lyric)}{modfiyTranslateLyricTimeAxis(tlyric)}";
         }
 
         /// <summary>
-        /// 更改翻译歌词的时间轴
-        /// <param name="lrcText">翻译的歌词</param>
+        /// 统一将时间轴格式转换为两位
+        /// <param name="lrcText">歌词文本</param>
         /// </summary>
-        /// <returns></returns>
+        /// <returns>转换完毕的歌词文本</returns>
         private string modfiyTranslateLyricTimeAxis(string lrcText)
         {
             Regex _reg = new Regex(@"\[\d+:\d+.\d+\]");

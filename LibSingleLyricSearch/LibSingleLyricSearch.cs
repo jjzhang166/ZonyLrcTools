@@ -13,7 +13,7 @@ namespace LibSingleLyricSearch
         public void Init(ResourceModel shareResModel)
         {
             var _buttonRef = shareResModel.UI_Main_TopButtonMenu.Items.Add("歌词搜索");
-            _buttonRef.Click += (object sender, EventArgs e) => { new UI_SearchWindow(shareResModel).Show(); };
+            _buttonRef.Click += (object sender, EventArgs e) => new UI_SearchWindow(shareResModel).Show();
         }
     }
 }
