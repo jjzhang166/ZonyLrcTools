@@ -25,20 +25,16 @@ namespace LibNet
         /// <param name="encoding">返回数据的编码方式</param>
         /// <param name="referer">要提供的来源站点地址</param>
         /// <returns>成功返回数据，否则返回null</returns>
-        public string HttpGet(string url, Encoding encoding, string referer = null)
+        public string HttpGet(string url, Encoding encoding, string referer = null, string parameters = null)
         {
             try
             {
                 HttpRequestMessage _req = new HttpRequestMessage(HttpMethod.Get, url);
-
-                if (referer != null) _req.Headers.Referrer = new Uri(referer);
+                if (referer != null) _req.Headers.Referrer = new Uri($"{referer}{parameters}");
 
                 HttpResponseMessage _res = m_client.SendAsync(_req).Result;
-                if (_res.StatusCode == HttpStatusCode.OK)
-                {
-                    return _res.Content.ReadAsStringAsync().Result;
-                }
-                else return null;
+                if (_res.StatusCode != HttpStatusCode.OK) return null;
+                return _res.Content.ReadAsStringAsync().Result;
             }
             catch (Exception E)
             {
@@ -51,30 +47,27 @@ namespace LibNet
         /// </summary>
         /// <param name="url">目标URL</param>
         /// <param name="encoding">提交数据的编码方式</param>
-        /// <param name="data">要提交的数据</param>
+        /// <param name="parameters">要提交的数据</param>
         /// <param name="referer">要提供的来源站点地址</param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="UriFormatException"/>
         /// <returns>成功返回数据，否则返回null</returns>
-        public string HttpPost(string url, Encoding encoding, string data = null, string referer = null)
+        public string HttpPost(string url, Encoding encoding, string parameters = null, string referer = null)
         {
             try
             {
                 HttpRequestMessage _req = new HttpRequestMessage(HttpMethod.Post, url);
 
                 if (referer != null) _req.Headers.Referrer = new Uri(referer);
-                if (data != null)
+                if (parameters != null)
                 {
-                    _req.Content = new StringContent(data);
+                    _req.Content = new StringContent(parameters);
                     _req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
                 }
 
                 HttpResponseMessage _res = m_client.SendAsync(_req).Result;
-                if (_res.StatusCode == HttpStatusCode.OK)
-                {
-                    return _res.Content.ReadAsStringAsync().Result;
-                }
-                else return null;
+                if (_res.StatusCode != HttpStatusCode.OK) return null;
+                return _res.Content.ReadAsStringAsync().Result;
             }
             catch (Exception E)
             {
